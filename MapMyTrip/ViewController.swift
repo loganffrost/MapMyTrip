@@ -32,7 +32,7 @@ override func viewDidLoad() {
                 // and offer to take the user to Settings for the app via
                 // UIApplication -openUrl: and UIApplicationOpenSettingsURLString
                 locationManager.requestAlwaysAuthorization()
-                locationManager.requestWhenInUseAuthorization()
+               locationManager.requestWhenInUseAuthorization()
             }
          locationManager.startUpdatingLocation()
          locationManager.startUpdatingHeading()
@@ -44,7 +44,7 @@ override func viewDidLoad() {
         let coordinate = CLLocationCoordinate2D()
          
          
-    //     print("present location : \(coordinate.latitude), \(coordinate.longitude)")
+         print("present location : \(coordinate.latitude), \(coordinate.longitude)")
 
 
 }
