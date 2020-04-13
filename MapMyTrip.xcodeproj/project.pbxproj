@@ -15,6 +15,8 @@
 		FA123C1424435B61009B1C1E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FA123C1224435B61009B1C1E /* LaunchScreen.storyboard */; };
 		FA123C1F24435B61009B1C1E /* MapMyTripTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA123C1E24435B61009B1C1E /* MapMyTripTests.swift */; };
 		FAB4B03924449BD900E34F52 /* Track.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAB4B03824449BD900E34F52 /* Track.swift */; };
+		FAB4B03B2444B14200E34F52 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAB4B03A2444B14200E34F52 /* SettingsViewController.swift */; };
+		FAB4B03D2444B1C300E34F52 /* TracksTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAB4B03C2444B1C300E34F52 /* TracksTableViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -40,6 +42,8 @@
 		FA123C1E24435B61009B1C1E /* MapMyTripTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapMyTripTests.swift; sourceTree = "<group>"; };
 		FA123C2024435B61009B1C1E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		FAB4B03824449BD900E34F52 /* Track.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Track.swift; path = Classes/Track.swift; sourceTree = "<group>"; };
+		FAB4B03A2444B14200E34F52 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
+		FAB4B03C2444B1C300E34F52 /* TracksTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TracksTableViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -85,6 +89,8 @@
 				FA123C0924435B5E009B1C1E /* SceneDelegate.swift */,
 				FA123C0B24435B5E009B1C1E /* ViewController.swift */,
 				FA123C0D24435B5E009B1C1E /* Main.storyboard */,
+				FAB4B03C2444B1C300E34F52 /* TracksTableViewController.swift */,
+				FAB4B03A2444B14200E34F52 /* SettingsViewController.swift */,
 				FA123C1024435B61009B1C1E /* Assets.xcassets */,
 				FA123C1224435B61009B1C1E /* LaunchScreen.storyboard */,
 				FA123C1524435B61009B1C1E /* Info.plist */,
@@ -204,8 +210,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				FA123C0C24435B5E009B1C1E /* ViewController.swift in Sources */,
+				FAB4B03D2444B1C300E34F52 /* TracksTableViewController.swift in Sources */,
 				FA123C0824435B5E009B1C1E /* AppDelegate.swift in Sources */,
 				FA123C0A24435B5E009B1C1E /* SceneDelegate.swift in Sources */,
+				FAB4B03B2444B14200E34F52 /* SettingsViewController.swift in Sources */,
 				FAB4B03924449BD900E34F52 /* Track.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
