@@ -9,9 +9,12 @@
 import UIKit
 
 class SettingsViewController: UIViewController {
-
+    var defaults : UserDefaults!
+    @IBOutlet weak var modeSelect: UISegmentedControl!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        defaults = UserDefaults.standard
 
         // Do any additional setup after loading the view.
     }
@@ -31,6 +34,9 @@ class SettingsViewController: UIViewController {
     }
     
     @IBAction func save(_ sender: UIBarButtonItem) {
+        //
+        let mode: Int  = modeSelect.selectedSegmentIndex
+        defaults.set(mode, forKey: "travelMode")
     }
     
 }

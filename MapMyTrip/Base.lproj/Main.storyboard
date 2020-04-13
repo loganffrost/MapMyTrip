@@ -87,7 +87,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1077.5999999999999" y="137.18140929535232"/>
+            <point key="canvasLocation" x="999" y="137"/>
         </scene>
         <!--Tracks Table View Controller-->
         <scene sceneID="kpt-nZ-7Q4">
@@ -98,13 +98,33 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="TZf-Y4-TCC">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="TZf-Y4-TCC" customClass="TracksTableViewCell" customModule="MapMyTrip">
                                 <rect key="frame" x="0.0" y="28" width="375" height="43.5"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="TZf-Y4-TCC" id="rO2-VW-0cK">
                                     <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="dateLabel" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="D2q-16-OQ3">
+                                            <rect key="frame" x="16" y="11" width="127.5" height="20.5"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="descriptionLabel" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zTj-13-zWz">
+                                            <rect key="frame" x="151" y="11" width="208" height="21"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
                                 </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="trackDate" destination="D2q-16-OQ3" id="e2L-lx-Gpo"/>
+                                    <outlet property="trackDescription" destination="zTj-13-zWz" id="eip-7L-7YZ"/>
+                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>
@@ -116,7 +136,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ejW-Zc-zV5" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1866" y="137"/>
+            <point key="canvasLocation" x="1864.8" y="136.28185907046478"/>
         </scene>
         <!--Settings View Controller-->
         <scene sceneID="SoG-nM-KVN">
@@ -125,7 +145,36 @@
                     <view key="view" contentMode="scaleToFill" id="qX0-6g-Z0v">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Mode" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="imH-JP-6xm">
+                                <rect key="frame" x="16" y="57" width="343" height="21"/>
+                                <fontDescription key="fontDescription" type="system" weight="medium" pointSize="18"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" apportionsSegmentWidthsByContent="YES" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="TLD-xu-CYM">
+                                <rect key="frame" x="16" y="86" width="343" height="32"/>
+                                <segments>
+                                    <segment title="" image="walk"/>
+                                    <segment title="" image="run"/>
+                                    <segment title="" image="bike"/>
+                                    <segment title="" image="motorbike"/>
+                                    <segment title="" image="car"/>
+                                    <segment title="" image="boat"/>
+                                    <segment title="" image="helicopter"/>
+                                    <segment title="" image="aircraft"/>
+                                </segments>
+                            </segmentedControl>
+                        </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="imH-JP-6xm" firstAttribute="trailing" secondItem="TLD-xu-CYM" secondAttribute="trailing" id="43j-m0-7pq"/>
+                            <constraint firstItem="imH-JP-6xm" firstAttribute="top" secondItem="TQG-og-FvK" secondAttribute="top" constant="13" id="4GT-Ec-nLK"/>
+                            <constraint firstItem="TLD-xu-CYM" firstAttribute="top" secondItem="imH-JP-6xm" secondAttribute="bottom" constant="8" id="JRv-P1-Vz9"/>
+                            <constraint firstItem="imH-JP-6xm" firstAttribute="leading" secondItem="TLD-xu-CYM" secondAttribute="leading" id="TZd-LG-57m"/>
+                            <constraint firstItem="imH-JP-6xm" firstAttribute="trailing" secondItem="qX0-6g-Z0v" secondAttribute="trailingMargin" id="bHu-4M-AvQ"/>
+                            <constraint firstItem="imH-JP-6xm" firstAttribute="leading" secondItem="qX0-6g-Z0v" secondAttribute="leadingMargin" id="tgQ-4a-bGd"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="TQG-og-FvK"/>
                     </view>
                     <navigationItem key="navigationItem" title="Settings" id="Snk-36-re1">
@@ -135,10 +184,13 @@
                             </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <outlet property="modeSelect" destination="TLD-xu-CYM" id="Uu3-6w-RhF"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="z8z-wj-5jm" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1078" y="861"/>
+            <point key="canvasLocation" x="998" y="860"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="gm1-DI-lLF">
@@ -160,12 +212,20 @@
         </scene>
     </scenes>
     <resources>
+        <image name="aircraft" width="25" height="25"/>
+        <image name="bike" width="25" height="25"/>
+        <image name="boat" width="25" height="25"/>
+        <image name="car" width="25" height="25"/>
+        <image name="helicopter" width="25" height="25"/>
         <image name="list.dash" catalog="system" width="128" height="85"/>
+        <image name="motorbike" width="25" height="25"/>
         <image name="pause" width="25" height="25"/>
+        <image name="run" width="25" height="25"/>
         <image name="save" width="25" height="25"/>
         <image name="settings" width="25" height="25"/>
         <image name="start" width="25" height="25"/>
         <image name="stop" width="25" height="25"/>
+        <image name="walk" width="25" height="25"/>
         <namedColor name="darkGreen">
             <color red="0.0" green="0.56031829119999998" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>

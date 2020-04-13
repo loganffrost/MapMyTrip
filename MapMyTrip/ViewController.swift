@@ -22,6 +22,8 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
     var locationManager: CLLocationManager!
     var userLocation: CLLocation!
     var isRecording: Bool!
+    var transportMode: Int!
+    var defaults : UserDefaults!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,6 +34,10 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
         locationManager.delegate = self;
         isRecording = false
         
+        // Get user defaults
+       defaults = UserDefaults.standard
+        let mode = defaults.integer(forKey:"travelMode")
+    
         getPermissions()
         setUpMap()
         setupUserTrackingButtonAndScaleView()
@@ -56,6 +62,9 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
         mapView.showsCompass = true
     }
     
+    static func saveSettings () {
+        
+    }
     func setupUserTrackingButtonAndScaleView() {
         mapView.showsUserLocation = true
         

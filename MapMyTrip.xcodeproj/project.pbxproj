@@ -17,6 +17,7 @@
 		FAB4B03924449BD900E34F52 /* Track.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAB4B03824449BD900E34F52 /* Track.swift */; };
 		FAB4B03B2444B14200E34F52 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAB4B03A2444B14200E34F52 /* SettingsViewController.swift */; };
 		FAB4B03D2444B1C300E34F52 /* TracksTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAB4B03C2444B1C300E34F52 /* TracksTableViewController.swift */; };
+		FAB4B03F2444C33600E34F52 /* TracksTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAB4B03E2444C33600E34F52 /* TracksTableViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -44,6 +45,7 @@
 		FAB4B03824449BD900E34F52 /* Track.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Track.swift; path = Classes/Track.swift; sourceTree = "<group>"; };
 		FAB4B03A2444B14200E34F52 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		FAB4B03C2444B1C300E34F52 /* TracksTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TracksTableViewController.swift; sourceTree = "<group>"; };
+		FAB4B03E2444C33600E34F52 /* TracksTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TracksTableViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -90,6 +92,7 @@
 				FA123C0B24435B5E009B1C1E /* ViewController.swift */,
 				FA123C0D24435B5E009B1C1E /* Main.storyboard */,
 				FAB4B03C2444B1C300E34F52 /* TracksTableViewController.swift */,
+				FAB4B03E2444C33600E34F52 /* TracksTableViewCell.swift */,
 				FAB4B03A2444B14200E34F52 /* SettingsViewController.swift */,
 				FA123C1024435B61009B1C1E /* Assets.xcassets */,
 				FA123C1224435B61009B1C1E /* LaunchScreen.storyboard */,
@@ -215,6 +218,7 @@
 				FA123C0A24435B5E009B1C1E /* SceneDelegate.swift in Sources */,
 				FAB4B03B2444B14200E34F52 /* SettingsViewController.swift in Sources */,
 				FAB4B03924449BD900E34F52 /* Track.swift in Sources */,
+				FAB4B03F2444C33600E34F52 /* TracksTableViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
