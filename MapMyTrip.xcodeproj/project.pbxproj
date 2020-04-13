@@ -14,6 +14,7 @@
 		FA123C1124435B61009B1C1E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FA123C1024435B61009B1C1E /* Assets.xcassets */; };
 		FA123C1424435B61009B1C1E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FA123C1224435B61009B1C1E /* LaunchScreen.storyboard */; };
 		FA123C1F24435B61009B1C1E /* MapMyTripTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA123C1E24435B61009B1C1E /* MapMyTripTests.swift */; };
+		FAB4B03924449BD900E34F52 /* Track.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAB4B03824449BD900E34F52 /* Track.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -38,6 +39,7 @@
 		FA123C1A24435B61009B1C1E /* MapMyTripTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MapMyTripTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		FA123C1E24435B61009B1C1E /* MapMyTripTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapMyTripTests.swift; sourceTree = "<group>"; };
 		FA123C2024435B61009B1C1E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		FAB4B03824449BD900E34F52 /* Track.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Track.swift; path = Classes/Track.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -86,6 +88,7 @@
 				FA123C1024435B61009B1C1E /* Assets.xcassets */,
 				FA123C1224435B61009B1C1E /* LaunchScreen.storyboard */,
 				FA123C1524435B61009B1C1E /* Info.plist */,
+				FAB4B03824449BD900E34F52 /* Track.swift */,
 			);
 			path = MapMyTrip;
 			sourceTree = "<group>";
@@ -203,6 +206,7 @@
 				FA123C0C24435B5E009B1C1E /* ViewController.swift in Sources */,
 				FA123C0824435B5E009B1C1E /* AppDelegate.swift in Sources */,
 				FA123C0A24435B5E009B1C1E /* SceneDelegate.swift in Sources */,
+				FAB4B03924449BD900E34F52 /* Track.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
