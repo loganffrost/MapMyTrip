@@ -9,7 +9,6 @@
 import UIKit
 import MapKit
 import CoreLocation
-import os.log
 
 class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate {
     // MARK: Outlets
@@ -54,8 +53,6 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
         getPermissions()
         setUpMap()
         setupUserTrackingButtonAndScaleView()
-        
-      //  loadLocations()
     }
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
@@ -140,19 +137,6 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
                                      scale.centerYAnchor.constraint(equalTo: button.centerYAnchor)])
     }
     
-    // MARK: File operation methods
-     func saveLocations() {
-        let isSuccessfulSave = NSKeyedArchiver.archiveRootObject(visitedLocations, toFile: Location.ArchiveURL.path)
-        if isSuccessfulSave {
-            os_log("Locations successfully saved", log: OSLog.default, type: .debug)
-        } else {
-            os_log("Failed to save meals...", log: OSLog.default, type: .error)
-        }
-    }
-    
-
-    static func loadWidgetDataArray(unarchivedObject: Data) -> [Location] {
-        return try! NSKeyedUnarchiver.unarchivedObject(ofClasses: [NSArray.self, Location.self], from: unarchivedObject) as! [Location] }
     
     // MARK: Actions
     func onReturnFromSettings(mode: Int) {
@@ -162,7 +146,6 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
     }
     
     @IBAction func saveCurrentTrack(_ sender: UIBarButtonItem) {
-        saveLocations()
     }
     
     
