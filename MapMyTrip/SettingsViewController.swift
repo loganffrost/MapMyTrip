@@ -17,7 +17,6 @@ class SettingsViewController: UIViewController {
         super.viewDidLoad()
         
         defaults = UserDefaults.standard
-        
         modeSelect.selectedSegmentIndex = defaults.integer(forKey: "travelMode")
 
         // Do any additional setup after loading the view.

@@ -9,6 +9,7 @@
 import UIKit
 import MapKit
 import CoreLocation
+import CoreData
 
 class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate {
     // MARK: Outlets
@@ -30,6 +31,9 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
     var visitedLocations: [CLLocation]!
     var previousLocation : CLLocation!
     var newLocation : CLLocation!
+    
+    
+    var places: [NSManagedObject] = []
     
     // MARK: Functions
     override func viewDidLoad() {
@@ -146,6 +150,7 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
     }
     
     @IBAction func saveCurrentTrack(_ sender: UIBarButtonItem) {
+        save(visitedLocations: visitedLocations)
     }
     
     
@@ -202,5 +207,66 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
         mode = defaults.integer(forKey:"travelMode")
         recordingThreshold = recordingThresholds[mode]
     }
+    
+    
+    // Additional stuff for CoreData
+    
+    func save(visitedLocations: [CLLocation]) {
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
+            return
+        }
+        // 1
+        let managedContext = appDelegate.persistentContainer.viewContext
+        
+        // 2
+        let entity = NSEntityDescription.entity(forEntityName: "Place", in: managedContext)!
+        let place = NSManagedObject(entity: entity, insertInto: managedContext)
+        
+        let latitude = 21.22
+        let longitude = -4.55423
+        
+        // 3
+        place.setValue(latitude, forKey: "latitude")
+        place.setValue(longitude, forKey: "longitude")
+        
+        // 4
+        do {
+            try managedContext.save()
+            print("Saved")
+        //  people.append(person)
+        } catch let error as NSError {
+            print("Could not save. \(error), \(error.userInfo)")
+        }
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+      super.viewWillAppear(animated)
+      
+      //1
+      guard let appDelegate =
+        UIApplication.shared.delegate as? AppDelegate else {
+          return
+      }
+      
+      let managedContext =
+        appDelegate.persistentContainer.viewContext
+      
+      //2
+      let fetchRequest =
+        NSFetchRequest<NSManagedObject>(entityName: "Place")
+      
+      //3
+      do {
+        places = try managedContext.fetch(fetchRequest)
+        let placeCount = places.count
+        let longitude = places.last!.value(forKeyPath: "longitude") as? Double
+        let latitude = places.last!.value(forKeyPath: "latitude") as? Double
+        
+        print("Places retrieved")
+      } catch let error as NSError {
+        print("Could not fetch. \(error), \(error.userInfo)")
+      }
+    }
+    
 }
 
