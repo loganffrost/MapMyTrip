@@ -11,15 +11,27 @@ import UIKit
 class SettingsViewController: UIViewController {
     var defaults : UserDefaults!
     @IBOutlet weak var modeSelect: UISegmentedControl!
+    var mainViewController: ViewController?
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         defaults = UserDefaults.standard
+        
+        modeSelect.selectedSegmentIndex = defaults.integer(forKey: "travelMode")
 
         // Do any additional setup after loading the view.
     }
     
-
+    // MARK: Actions
+    
+    // Save mode on change
+    @IBAction func modeChanged(_ sender: UISegmentedControl, forEvent event: UIEvent) {
+        let mode: Int  = modeSelect.selectedSegmentIndex
+        defaults.set(mode, forKey: "travelMode")
+        mainViewController?.onReturnFromSettings(mode: mode)
+    }
+    
     /*
     // MARK: - Navigation
 
@@ -29,14 +41,12 @@ class SettingsViewController: UIViewController {
         // Pass the selected object to the new view controller.
     }
     */
-
-    @IBAction func cancel(_ sender: UIBarButtonItem) {
-    }
     
-    @IBAction func save(_ sender: UIBarButtonItem) {
-        //
-        let mode: Int  = modeSelect.selectedSegmentIndex
-        defaults.set(mode, forKey: "travelMode")
-    }
+    
+//    @IBAction func save(_ sender: UIBarButtonItem) {
+//        //
+//        let mode: Int  = modeSelect.selectedSegmentIndex
+//        defaults.set(mode, forKey: "travelMode")
+//    }
     
 }

@@ -24,7 +24,13 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
     var isRecording: Bool!
     var transportMode: Int!
     var defaults : UserDefaults!
+    var recordingThresholds: [Int] = [5,10,10,25,25, 50, 100, 100]
+    var recordingThreshold: Int!
+    var mode: Int!
+    var visitedLocations: [CLLocation]!
+    var previousLocation : CLLocation!
     
+    // MARK: Functions
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
@@ -34,13 +40,53 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
         locationManager.delegate = self;
         isRecording = false
         
+        // Set up array for visted locations
+        visitedLocations = [CLLocation]()
+        
         // Get user defaults
-       defaults = UserDefaults.standard
-        let mode = defaults.integer(forKey:"travelMode")
-    
+        defaults = UserDefaults.standard
+        mode = defaults.integer(forKey:"travelMode")
+        recordingThreshold = recordingThresholds[mode]
+        
         getPermissions()
         setUpMap()
         setupUserTrackingButtonAndScaleView()
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        var distance: CLLocationDistance = 0.0
+        // Check for location existing in locations
+        guard let currentLocation = locations.first else {
+            return
+        }
+        // Check for sensible distance from most recent location
+        // Check that this is not the first location
+        if visitedLocations.count > 1 {
+            // Get last visitedLocation and find distance from currentLocation
+            previousLocation = visitedLocations.last
+            distance = currentLocation.distance(from: previousLocation!)
+            
+            // Do not record locations within 25 metres of previous
+            if distance > 10
+            {
+                // Add currentLocation to end of visitedLocations array
+                visitedLocations.append(currentLocation)
+            }
+        } else {
+            visitedLocations.append(currentLocation)
+        }
+        
+        if (visitedLocations.last as CLLocation?) != nil {
+            var coordinates = visitedLocations.map({(location: CLLocation) -> CLLocationCoordinate2D in return location.coordinate})
+            let polyline = MKPolyline(coordinates: &coordinates, count: coordinates.count)
+            mapView.addOverlay(polyline)
+        }
+        
+        // Print out location array
+        for aLocation in visitedLocations {
+            // let  addedLocation: CLLocation = locations[0]
+            print("Location : \(aLocation.coordinate.latitude), \(aLocation.coordinate.longitude)")
+        }
     }
     
     func getPermissions() {
@@ -62,9 +108,13 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
         mapView.showsCompass = true
     }
     
-    static func saveSettings () {
-        
+    func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
+        let renderer = MKPolylineRenderer(overlay: overlay)
+        renderer.strokeColor = UIColor.blue
+        renderer.lineWidth = 5.0
+        return renderer
     }
+    
     func setupUserTrackingButtonAndScaleView() {
         mapView.showsUserLocation = true
         
@@ -90,6 +140,12 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
     
     
     // MARK: Actions
+    func onReturnFromSettings(mode: Int) {
+        self.mode = mode
+        self.recordingThreshold = self.recordingThresholds[mode]
+        print("Threshold - \(recordingThreshold)")
+    }
+    
     @IBAction func saveCurrentTrack(_ sender: UIBarButtonItem) {
     }
     
@@ -110,6 +166,15 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
         stopButton.isEnabled = true
         pauseButton.isEnabled = true
         isRecording = true
+        
+        self.recordingThreshold = self.recordingThresholds[mode]
+    }
+    
+    // MARK: Overrides
+    override func viewDidAppear(_ animated: Bool) {
+        // Set up
+        mode = defaults.integer(forKey:"travelMode")
+        recordingThreshold = recordingThresholds[mode]
     }
 }
 
