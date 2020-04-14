@@ -29,6 +29,7 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
     var mode: Int!
     var visitedLocations: [CLLocation]!
     var previousLocation : CLLocation!
+    var newLocation : CLLocation!
     
     // MARK: Functions
     override func viewDidLoad() {
@@ -36,8 +37,9 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
         // Do any additional setup after loading the view.
         
         locationManager = CLLocationManager()
-        locationManager.desiredAccuracy = kCLLocationAccuracyBest;
-        locationManager.delegate = self;
+        locationManager.desiredAccuracy = kCLLocationAccuracyBest
+        locationManager.delegate = self
+        mapView.delegate = self
         isRecording = false
         
         // Set up array for visted locations
@@ -65,9 +67,9 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
             // Get last visitedLocation and find distance from currentLocation
             previousLocation = visitedLocations.last
             distance = currentLocation.distance(from: previousLocation!)
-            
+            // print("Distance: \(distance)")
             // Do not record locations within 25 metres of previous
-            if distance > 10
+            if distance > Double(recordingThreshold)
             {
                 // Add currentLocation to end of visitedLocations array
                 visitedLocations.append(currentLocation)
@@ -85,7 +87,7 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
         // Print out location array
         for aLocation in visitedLocations {
             // let  addedLocation: CLLocation = locations[0]
-            print("Location : \(aLocation.coordinate.latitude), \(aLocation.coordinate.longitude)")
+          //  print("Location : \(aLocation.coordinate.latitude), \(aLocation.coordinate.longitude)")
         }
     }
     
@@ -143,7 +145,7 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
     func onReturnFromSettings(mode: Int) {
         self.mode = mode
         self.recordingThreshold = self.recordingThresholds[mode]
-        print("Threshold - \(recordingThreshold)")
+        // print("Threshold - \(recordingThreshold)")
     }
     
     @IBAction func saveCurrentTrack(_ sender: UIBarButtonItem) {
@@ -168,6 +170,21 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
         isRecording = true
         
         self.recordingThreshold = self.recordingThresholds[mode]
+    }
+    
+    func addAnnotationsOnMap(locationToPoint : CLLocation) {
+        //calculation for location selection and pointing annotation
+        if (previousLocation as CLLocation?) != nil{
+            //case if previous location exists
+            if previousLocation.distance(from: newLocation) > 200 {
+                addAnnotationsOnMap(locationToPoint: newLocation)
+                previousLocation = newLocation
+            }
+        }else{
+            //in case previous location doesn't exist
+            addAnnotationsOnMap(locationToPoint: newLocation)
+            previousLocation = newLocation
+        }
     }
     
     // MARK: Overrides
