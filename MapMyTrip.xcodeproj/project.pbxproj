@@ -15,7 +15,6 @@
 		FA123C1424435B61009B1C1E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FA123C1224435B61009B1C1E /* LaunchScreen.storyboard */; };
 		FA123C1F24435B61009B1C1E /* MapMyTripTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA123C1E24435B61009B1C1E /* MapMyTripTests.swift */; };
 		FA7A1D2D2445EA1F00D23D92 /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA7A1D2C2445EA1F00D23D92 /* Location.swift */; };
-		FA7A1D612446127300D23D92 /* MapMyTrip.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = FA7A1D5F2446127300D23D92 /* MapMyTrip.xcdatamodeld */; };
 		FAB4B03924449BD900E34F52 /* Track.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAB4B03824449BD900E34F52 /* Track.swift */; };
 		FAB4B03B2444B14200E34F52 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAB4B03A2444B14200E34F52 /* SettingsViewController.swift */; };
 		FAB4B03D2444B1C300E34F52 /* TracksTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAB4B03C2444B1C300E34F52 /* TracksTableViewController.swift */; };
@@ -45,7 +44,6 @@
 		FA123C1E24435B61009B1C1E /* MapMyTripTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapMyTripTests.swift; sourceTree = "<group>"; };
 		FA123C2024435B61009B1C1E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		FA7A1D2C2445EA1F00D23D92 /* Location.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Location.swift; sourceTree = "<group>"; };
-		FA7A1D602446127300D23D92 /* MapMyTrip.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = MapMyTrip.xcdatamodel; sourceTree = "<group>"; };
 		FAB4B03824449BD900E34F52 /* Track.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Track.swift; path = Classes/Track.swift; sourceTree = "<group>"; };
 		FAB4B03A2444B14200E34F52 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		FAB4B03C2444B1C300E34F52 /* TracksTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TracksTableViewController.swift; sourceTree = "<group>"; };
@@ -94,7 +92,6 @@
 				FA123C0724435B5E009B1C1E /* AppDelegate.swift */,
 				FA123C0924435B5E009B1C1E /* SceneDelegate.swift */,
 				FA123C0B24435B5E009B1C1E /* ViewController.swift */,
-				FA7A1D5F2446127300D23D92 /* MapMyTrip.xcdatamodeld */,
 				FA123C0D24435B5E009B1C1E /* Main.storyboard */,
 				FAB4B03C2444B1C300E34F52 /* TracksTableViewController.swift */,
 				FAB4B03E2444C33600E34F52 /* TracksTableViewCell.swift */,
@@ -221,7 +218,6 @@
 				FA123C0C24435B5E009B1C1E /* ViewController.swift in Sources */,
 				FAB4B03D2444B1C300E34F52 /* TracksTableViewController.swift in Sources */,
 				FA7A1D2D2445EA1F00D23D92 /* Location.swift in Sources */,
-				FA7A1D612446127300D23D92 /* MapMyTrip.xcdatamodeld in Sources */,
 				FA123C0824435B5E009B1C1E /* AppDelegate.swift in Sources */,
 				FA123C0A24435B5E009B1C1E /* SceneDelegate.swift in Sources */,
 				FAB4B03B2444B14200E34F52 /* SettingsViewController.swift in Sources */,
@@ -493,19 +489,6 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
-
-/* Begin XCVersionGroup section */
-		FA7A1D5F2446127300D23D92 /* MapMyTrip.xcdatamodeld */ = {
-			isa = XCVersionGroup;
-			children = (
-				FA7A1D602446127300D23D92 /* MapMyTrip.xcdatamodel */,
-			);
-			currentVersion = FA7A1D602446127300D23D92 /* MapMyTrip.xcdatamodel */;
-			path = MapMyTrip.xcdatamodeld;
-			sourceTree = "<group>";
-			versionGroupType = wrapper.xcdatamodel;
-		};
-/* End XCVersionGroup section */
 	};
 	rootObject = FA123BFC24435B5E009B1C1E /* Project object */;
 }
