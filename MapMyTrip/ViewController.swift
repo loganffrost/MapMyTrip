@@ -153,7 +153,7 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
         for location in visitedLocations {
             let altitude = location.altitude
             let timestamp = location.timestamp
-            print("Location: \(timestamp)")
+            print("Location: \(altitude)")
         }
     }
     
