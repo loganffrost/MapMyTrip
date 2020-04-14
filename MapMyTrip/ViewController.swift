@@ -56,6 +56,7 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
     }
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        if isRecording {
         var distance: CLLocationDistance = 0.0
         // Check for location existing in locations
         guard let currentLocation = locations.first else {
@@ -83,12 +84,8 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
             let polyline = MKPolyline(coordinates: &coordinates, count: coordinates.count)
             mapView.addOverlay(polyline)
         }
-        
-        // Print out location array
-        for aLocation in visitedLocations {
-            // let  addedLocation: CLLocation = locations[0]
-          //  print("Location : \(aLocation.coordinate.latitude), \(aLocation.coordinate.longitude)")
-        }
+
+    }
     }
     
     func getPermissions() {
@@ -151,16 +148,27 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
     @IBAction func saveCurrentTrack(_ sender: UIBarButtonItem) {
     }
     
+    
+    @IBAction func printLocations(_ sender: Any) {
+        for location in visitedLocations {
+            let altitude = location.altitude
+            let timestamp = location.timestamp
+            print("Location: \(timestamp)")
+        }
+    }
+    
     @IBAction func stopPlayer(_ sender: Any) {
         recordButton.isEnabled = true
         pauseButton.isEnabled = true
         stopButton.isEnabled = false
+        isRecording = false
     }
     
     @IBAction func pausePlayer(_ sender: Any) {
         recordButton.isEnabled = true
         stopButton.isEnabled = true
         pauseButton.isEnabled = false
+        isRecording = false
     }
     
     @IBAction func startRecording(_ sender: Any) {
@@ -186,6 +194,7 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
             previousLocation = newLocation
         }
     }
+    
     
     // MARK: Overrides
     override func viewDidAppear(_ animated: Bool) {
