@@ -224,10 +224,14 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
         
         let latitude = 21.22
         let longitude = -4.55423
+        let date = Date()
+       // let altitude = 1233
         
         // 3
         place.setValue(latitude, forKey: "latitude")
         place.setValue(longitude, forKey: "longitude")
+        place.setValue(date, forKey: "date")
+       // place.setValue(altitude, forKey: "altitude")
         
         // 4
         do {
@@ -261,6 +265,7 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
         let placeCount = places.count
         let longitude = places.last!.value(forKeyPath: "longitude") as? Double
         let latitude = places.last!.value(forKeyPath: "latitude") as? Double
+        let date = places.last!.value(forKey: "date") as?Date
         
         print("Places retrieved")
       } catch let error as NSError {
