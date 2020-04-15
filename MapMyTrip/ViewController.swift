@@ -31,6 +31,7 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
     var recordingThresholds: [Int] = [5,10,10,25,25,50,100,100]
     var recordingThreshold: Int!
     var mode: Int!
+    var destroyOnSave: Bool!
     var visitedLocations: [CLLocation]!
     var previousLocation : CLLocation!
     var newLocation : CLLocation!
@@ -53,6 +54,7 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
         // Get user defaults
         defaults = UserDefaults.standard
         mode = defaults.integer(forKey:"travelMode")
+        destroyOnSave = defaults.bool(forKey: "destroyOnSave")
         recordingThreshold = recordingThresholds[mode]
         
         setupButtons()

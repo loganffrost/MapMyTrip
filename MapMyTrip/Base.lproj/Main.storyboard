@@ -175,26 +175,45 @@
                                     <action selector="modeChanged:forEvent:" destination="VzS-PX-YTl" eventType="valueChanged" id="ztS-rn-CUW"/>
                                 </connections>
                             </segmentedControl>
+                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="LPd-3g-K7e">
+                                <rect key="frame" x="308" y="125" width="51" height="31"/>
+                                <connections>
+                                    <action selector="destroySwitch:forEvent:" destination="VzS-PX-YTl" eventType="valueChanged" id="9Se-Zw-kxw"/>
+                                </connections>
+                            </switch>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Destroy on save" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Uk1-SV-fDt">
+                                <rect key="frame" x="16" y="130" width="278" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
                             <constraint firstItem="imH-JP-6xm" firstAttribute="trailing" secondItem="TLD-xu-CYM" secondAttribute="trailing" id="43j-m0-7pq"/>
                             <constraint firstItem="imH-JP-6xm" firstAttribute="top" secondItem="TQG-og-FvK" secondAttribute="top" constant="13" id="4GT-Ec-nLK"/>
+                            <constraint firstItem="LPd-3g-K7e" firstAttribute="leading" secondItem="Uk1-SV-fDt" secondAttribute="trailing" constant="14" id="6da-zw-ry9"/>
                             <constraint firstItem="TLD-xu-CYM" firstAttribute="top" secondItem="imH-JP-6xm" secondAttribute="bottom" constant="8" id="JRv-P1-Vz9"/>
+                            <constraint firstItem="Uk1-SV-fDt" firstAttribute="centerY" secondItem="LPd-3g-K7e" secondAttribute="centerY" id="Lbf-p8-qVW"/>
                             <constraint firstItem="imH-JP-6xm" firstAttribute="leading" secondItem="TLD-xu-CYM" secondAttribute="leading" id="TZd-LG-57m"/>
+                            <constraint firstItem="TQG-og-FvK" firstAttribute="trailing" secondItem="LPd-3g-K7e" secondAttribute="trailing" constant="18" id="UpZ-8T-AKL"/>
                             <constraint firstItem="imH-JP-6xm" firstAttribute="trailing" secondItem="qX0-6g-Z0v" secondAttribute="trailingMargin" id="bHu-4M-AvQ"/>
+                            <constraint firstItem="Uk1-SV-fDt" firstAttribute="leading" secondItem="TLD-xu-CYM" secondAttribute="leading" id="dhK-pb-K3V"/>
                             <constraint firstItem="imH-JP-6xm" firstAttribute="leading" secondItem="qX0-6g-Z0v" secondAttribute="leadingMargin" id="tgQ-4a-bGd"/>
+                            <constraint firstItem="LPd-3g-K7e" firstAttribute="top" secondItem="TLD-xu-CYM" secondAttribute="bottom" constant="8" id="xws-oN-UW3"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="TQG-og-FvK"/>
                     </view>
                     <navigationItem key="navigationItem" title="Settings" id="Snk-36-re1"/>
                     <connections>
+                        <outlet property="destroyOptionLabel" destination="Lbf-p8-qVW" id="IxQ-uS-JYQ"/>
+                        <outlet property="destroySwitch" destination="LPd-3g-K7e" id="BUP-QI-3Ln"/>
                         <outlet property="modeSelect" destination="TLD-xu-CYM" id="Uu3-6w-RhF"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="z8z-wj-5jm" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="998" y="860"/>
+            <point key="canvasLocation" x="997.60000000000002" y="859.52023988005999"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="gm1-DI-lLF">
