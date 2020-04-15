@@ -41,12 +41,6 @@
                                             <action selector="startRecording:" destination="BYZ-38-t0r" id="yIG-RZ-BhW"/>
                                         </connections>
                                     </barButtonItem>
-                                    <barButtonItem title="Item" image="save" id="9q1-3z-hMl">
-                                        <color key="tintColor" name="darkGreen"/>
-                                        <connections>
-                                            <action selector="saveCurrentTrack:" destination="BYZ-38-t0r" id="urL-qX-4Fw"/>
-                                        </connections>
-                                    </barButtonItem>
                                     <barButtonItem title="PrintButton" image="printer.fill" catalog="system" id="Dt5-X3-6uQ">
                                         <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <connections>
@@ -88,7 +82,6 @@
                         <outlet property="pauseButton" destination="kbH-AW-btU" id="0ed-MG-rR5"/>
                         <outlet property="printButton" destination="Dt5-X3-6uQ" id="2ie-h8-a4E"/>
                         <outlet property="recordButton" destination="eyc-As-tBN" id="joH-pr-8CQ"/>
-                        <outlet property="saveTrackButton" destination="9q1-3z-hMl" id="rwy-fq-bQk"/>
                         <outlet property="stopButton" destination="iqS-7G-Fme" id="2qb-Mw-8dg"/>
                     </connections>
                 </viewController>
@@ -226,14 +219,10 @@
         <image name="pause" width="25" height="25"/>
         <image name="printer.fill" catalog="system" width="128" height="111"/>
         <image name="run" width="25" height="25"/>
-        <image name="save" width="25" height="25"/>
         <image name="settings" width="25" height="25"/>
         <image name="start" width="25" height="25"/>
         <image name="stop" width="25" height="25"/>
         <image name="walk" width="25" height="25"/>
-        <namedColor name="darkGreen">
-            <color red="0.0" green="0.56000000238418579" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </namedColor>
         <namedColor name="orange">
             <color red="1" green="0.26100000739097595" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
