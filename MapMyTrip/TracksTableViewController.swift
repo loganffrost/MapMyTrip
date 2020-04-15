@@ -12,12 +12,23 @@ class TracksTableViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        getFileList()
 
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem
+    }
+    
+    // MARK: Functions
+    
+    func getFileList() {
+    let docDir = try! FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: true)
+     let filePath = try! FileManager.default.contentsOfDirectory(at: docDir, includingPropertiesForKeys: nil)
+        for file in filePath {
+            print (file.lastPathComponent) 
+        }
     }
 
     // MARK: - Table view data source
