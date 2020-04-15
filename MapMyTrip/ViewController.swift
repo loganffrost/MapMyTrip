@@ -272,7 +272,6 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
         } catch {
             print(error.localizedDescription)
         }
-        read()
         let destroy = defaults.bool(forKey: "destroyOnSave")
         if destroy {
             // New stuff starts here

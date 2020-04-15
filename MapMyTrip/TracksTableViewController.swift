@@ -27,7 +27,14 @@ class TracksTableViewController: UITableViewController {
     let docDir = try! FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: true)
      let filePath = try! FileManager.default.contentsOfDirectory(at: docDir, includingPropertiesForKeys: nil)
         for file in filePath {
-            print (file.lastPathComponent) 
+            print (file.lastPathComponent)
+            do {
+            let fileManager = FileManager.default
+            let attributes = try fileManager.attributesOfItem(atPath: file.path)
+                } catch {
+                   // 6
+                   print( "No information available for")
+                 }
         }
     }
 
