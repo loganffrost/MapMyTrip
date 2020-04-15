@@ -86,6 +86,7 @@
                     <connections>
                         <outlet property="mapView" destination="SHd-K3-tKJ" id="AcJ-h8-9pd"/>
                         <outlet property="pauseButton" destination="kbH-AW-btU" id="0ed-MG-rR5"/>
+                        <outlet property="printButton" destination="Dt5-X3-6uQ" id="2ie-h8-a4E"/>
                         <outlet property="recordButton" destination="eyc-As-tBN" id="joH-pr-8CQ"/>
                         <outlet property="saveTrackButton" destination="9q1-3z-hMl" id="rwy-fq-bQk"/>
                         <outlet property="stopButton" destination="iqS-7G-Fme" id="2qb-Mw-8dg"/>

@@ -18,6 +18,7 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
     @IBOutlet weak var pauseButton: UIBarButtonItem!
     @IBOutlet weak var recordButton: UIBarButtonItem!
     @IBOutlet weak var saveTrackButton: UIBarButtonItem!
+    @IBOutlet weak var printButton: UIBarButtonItem!
     
     // MARK: Properties
     var locationManager: CLLocationManager!
@@ -25,7 +26,7 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
     var isRecording: Bool!
     var transportMode: Int!
     var defaults : UserDefaults!
-    var recordingThresholds: [Int] = [5,10,10,25,25, 50, 100, 100]
+    var recordingThresholds: [Int] = [5,10,10,25,25,50,100,100]
     var recordingThreshold: Int!
     var mode: Int!
     var visitedLocations: [CLLocation]!
@@ -54,6 +55,7 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
         mode = defaults.integer(forKey:"travelMode")
         recordingThreshold = recordingThresholds[mode]
         
+        setupButtons()
         getPermissions()
         setUpMap()
         setupUserTrackingButtonAndScaleView()
@@ -61,35 +63,36 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         if isRecording {
-        var distance: CLLocationDistance = 0.0
-        // Check for location existing in locations
-        guard let currentLocation = locations.first else {
-            return
-        }
-        // Check for sensible distance from most recent location
-        // Check that this is not the first location
-        if visitedLocations.count > 1 {
-            // Get last visitedLocation and find distance from currentLocation
-            previousLocation = visitedLocations.last
-            distance = currentLocation.distance(from: previousLocation!)
-            // print("Distance: \(distance)")
-            // Do not record locations within 25 metres of previous
-            if distance > Double(recordingThreshold)
-            {
-                // Add currentLocation to end of visitedLocations array
+            var distance: CLLocationDistance = 0.0
+            // Check for location existing in locations
+            guard let currentLocation = locations.first else {
+                return
+            }
+            // Check for sensible distance from most recent location
+            // Check that this is not the first location
+            if visitedLocations.count > 1 {
+                // Get last visitedLocation and find distance from currentLocation
+                previousLocation = visitedLocations.last
+                distance = currentLocation.distance(from: previousLocation!)
+                // print("Distance: \(distance)")
+                // Do not record locations within 25 metres of previous
+                if distance > Double(recordingThreshold)
+                {
+                    // Add currentLocation to end of visitedLocations array
+                    visitedLocations.append(currentLocation)
+                    saveCurrentLocation(location: currentLocation)
+                }
+            } else {
                 visitedLocations.append(currentLocation)
             }
-        } else {
-            visitedLocations.append(currentLocation)
+            
+            if (visitedLocations.last as CLLocation?) != nil {
+                var coordinates = visitedLocations.map({(location: CLLocation) -> CLLocationCoordinate2D in return location.coordinate})
+                let polyline = MKPolyline(coordinates: &coordinates, count: coordinates.count)
+                mapView.addOverlay(polyline)
+            }
+            
         }
-        
-        if (visitedLocations.last as CLLocation?) != nil {
-            var coordinates = visitedLocations.map({(location: CLLocation) -> CLLocationCoordinate2D in return location.coordinate})
-            let polyline = MKPolyline(coordinates: &coordinates, count: coordinates.count)
-            mapView.addOverlay(polyline)
-        }
-
-    }
     }
     
     func getPermissions() {
@@ -109,6 +112,14 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
         mapView.mapType = .standard
         mapView.userTrackingMode = MKUserTrackingMode(rawValue: 2)!
         mapView.showsCompass = true
+    }
+    
+    func setupButtons() {
+        pauseButton.isEnabled = false
+        printButton.isEnabled = false
+        recordButton.isEnabled = true
+        stopButton.isEnabled = false
+        saveTrackButton.isEnabled = false
     }
     
     func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
@@ -225,53 +236,111 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
         let latitude = 21.22
         let longitude = -4.55423
         let date = Date()
-       // let altitude = 1233
+        // let altitude = 1233
         
         // 3
         place.setValue(latitude, forKey: "latitude")
         place.setValue(longitude, forKey: "longitude")
         place.setValue(date, forKey: "date")
-       // place.setValue(altitude, forKey: "altitude")
+        // place.setValue(altitude, forKey: "altitude")
         
         // 4
         do {
             try managedContext.save()
             print("Saved")
-        //  people.append(person)
+            //  people.append(person)
         } catch let error as NSError {
             print("Could not save. \(error), \(error.userInfo)")
         }
     }
     
     override func viewWillAppear(_ animated: Bool) {
-      super.viewWillAppear(animated)
-      
-      //1
-      guard let appDelegate =
-        UIApplication.shared.delegate as? AppDelegate else {
-          return
-      }
-      
-      let managedContext =
-        appDelegate.persistentContainer.viewContext
-      
-      //2
-      let fetchRequest =
-        NSFetchRequest<NSManagedObject>(entityName: "Place")
-      
-      //3
-      do {
-        places = try managedContext.fetch(fetchRequest)
-        let placeCount = places.count
-        let longitude = places.last!.value(forKeyPath: "longitude") as? Double
-        let latitude = places.last!.value(forKeyPath: "latitude") as? Double
-        let date = places.last!.value(forKey: "date") as?Date
+        super.viewWillAppear(animated)
         
-        print("Places retrieved")
-      } catch let error as NSError {
-        print("Could not fetch. \(error), \(error.userInfo)")
-      }
+        // Remove all saved locations
+        visitedLocations.removeAll()
+        
+         //1
+         guard let appDelegate =
+         UIApplication.shared.delegate as? AppDelegate else {
+         return
+         }
+         
+         let managedContext =
+         appDelegate.persistentContainer.viewContext
+         
+         //2
+         let fetchRequest =
+         NSFetchRequest<NSManagedObject>(entityName: "Place")
+         
+         //3
+         do {
+         places = try managedContext.fetch(fetchRequest)
+        
+         let placeCount = places.count
+            
+            for place  in places {
+                  let longitude = place.value(forKeyPath: "longitude") as? Double
+                  let latitude = place.value(forKeyPath: "latitude") as? Double
+                  let elevation = place.value(forKeyPath: "elevation") as? Double
+                  let horizontalAccuracy = place.value(forKeyPath: "horizontalAccuracy") as? Double
+                  let verticalAccuracy = place.value(forKeyPath: "verticalAccuracy") as? Double
+                let timestamp = (place.value(forKey: "timestamp") as? Date)
+                
+          //      print("horizontalAccuracy: \(horizontalAccuracy!)\t verticalAccuracy: \(verticalAccuracy!)\t  Elevation: \(elevation!)")
+          //      let dateFormatterPrint = DateFormatter()
+           //     dateFormatterPrint.dateFormat = "MMM dd,yyyy : hh:mm:ss"
+
+          //      print(dateFormatterPrint.string(from: timestamp!))
+                let coordinate = CLLocationCoordinate2DMake(latitude!, longitude!)
+                let currentLocation = CLLocation(coordinate: coordinate, altitude: elevation!, horizontalAccuracy:horizontalAccuracy!, verticalAccuracy: verticalAccuracy!,  timestamp: timestamp!)
+                
+                visitedLocations.append(currentLocation)
+            }
+
+ 
+      //   print("\(placeCount) places retrieved")
+         } catch let error as NSError {
+         print("Could not fetch. \(error), \(error.userInfo)")
+         }
+         
     }
     
+    func saveCurrentLocation( location: CLLocation ) {
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
+            return
+        }
+        // 1
+        let managedContext = appDelegate.persistentContainer.viewContext
+        
+        // 2
+        let entity = NSEntityDescription.entity(forEntityName: "Place", in: managedContext)!
+        let place = NSManagedObject(entity: entity, insertInto: managedContext)
+        
+        let elevation = location.altitude as Double
+        let timestamp = location.timestamp
+        let coordinate = location.coordinate
+        let horizontalAccuracy = location.horizontalAccuracy
+        let verticalAccuracy = location.verticalAccuracy
+        let latitude = coordinate.latitude
+        let longitude = coordinate.longitude
+        
+        // 3
+        place.setValue(latitude, forKey: "latitude")
+        place.setValue(longitude, forKey: "longitude")
+        place.setValue(timestamp, forKey: "timestamp")
+        place.setValue(elevation, forKey: "elevation")
+        place.setValue(verticalAccuracy, forKey: "verticalAccuracy")
+        place.setValue(horizontalAccuracy, forKey: "horizontalAccuracy")
+        
+        // 4
+        do {
+            try managedContext.save()
+            
+            //  print("Saved")
+        } catch let error as NSError {
+            print("Could not save. \(error), \(error.userInfo)")
+        }
+    }
 }
 
