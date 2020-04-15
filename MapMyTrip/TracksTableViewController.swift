@@ -27,10 +27,17 @@ class TracksTableViewController: UITableViewController {
     let docDir = try! FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: true)
      let filePath = try! FileManager.default.contentsOfDirectory(at: docDir, includingPropertiesForKeys: nil)
         for file in filePath {
+
+            var report = ""
             print (file.lastPathComponent)
             do {
             let fileManager = FileManager.default
             let attributes = try fileManager.attributesOfItem(atPath: file.path)
+                for (key, value) in attributes {
+                  // ignore NSFileExtendedAttributes as it is a messy dictionary
+                  if key.rawValue == "NSFileExtendedAttributes" { continue }
+                  report.append("\(key.rawValue):\t \(value)")
+                }
                 } catch {
                    // 6
                    print( "No information available for")
