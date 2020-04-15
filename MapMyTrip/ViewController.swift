@@ -28,7 +28,7 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
     var isRecording: Bool!
     var transportMode: Int!
     var defaults : UserDefaults!
-    var recordingThresholds: [Int] = [5,10,10,25,25,50,100,100]
+    var recordingThresholds: [Int] = [1,5,10,25,25,50,100,100]
     var recordingThreshold: Int!
     var mode: Int!
     var destroyOnSave: Bool!
@@ -36,7 +36,7 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
     var previousLocation : CLLocation!
     var newLocation : CLLocation!
     
-    var places: [NSManagedObject] = []
+    // var places: [NSManagedObject] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -61,15 +61,14 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
         getPermissions()
         setUpMap()
         setupUserTrackingButtonAndScaleView()
-        
     }
     
     // MARK:  Events
     // Plot currently active track when map loads
-     func mapViewDidFinishLoadingMap(_ mapView: MKMapView) {
+    func mapViewDidFinishLoadingMap(_ mapView: MKMapView) {
         plotCurrentTrack()
     }
-        
+    
     // Called when CLLocationManager detects a change in location
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         // Check whether recording is triggered
@@ -112,9 +111,9 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
     // MARK: Functions
     
     func getDocumentsDirectory() -> URL {
-          let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
-          return paths[0]
-      }
+        let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
+        return paths[0]
+    }
     
     // Prepare visitedLocations for saving
     func prepareWriteString() -> String{
@@ -122,7 +121,7 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
         var outputString = ""
         var outputData: [String] = []
         for place in visitedLocations {
-
+            
             let placeString = makeString(place: place)
             outputData.append(placeString)
         }
@@ -133,7 +132,6 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
     // Make String from a place
     func makeString(place :CLLocation) -> String{
         // Sart with an empty string
-        var data = ""
         // and a CLocation
         let latitude = place.coordinate.latitude
         let longitude = place.coordinate.longitude
@@ -152,7 +150,7 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
         let haccStr = "\(haccuracy)"
         let vaccStr = "\(vaccuracy)"
         let eleStr = "\(elevation)"
-
+        
         var  dataArray: [String] = []
         dataArray.append(latStr)
         dataArray.append(longStr)
@@ -169,11 +167,11 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
     
     // Plots track loaded from visitedLocations array
     func plotCurrentTrack() {
-        if (visitedLocations.last as CLLocation?) != nil {
-            var coordinates = visitedLocations.map({(location: CLLocation) -> CLLocationCoordinate2D in return location.coordinate})
-            let polyline = MKPolyline(coordinates: &coordinates, count: coordinates.count)
-            mapView.addOverlay(polyline)
-        }
+        // if (visitedLocations.last as CLLocation?) != nil {
+        var coordinates = visitedLocations.map({(location: CLLocation) -> CLLocationCoordinate2D in return location.coordinate})
+        let polyline = MKPolyline(coordinates: &coordinates, count: coordinates.count)
+        mapView.addOverlay(polyline)
+        //  }
     }
     
     // Gets permisiions for location services
@@ -201,6 +199,7 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
         printButton.isEnabled = false
         recordButton.isEnabled = true
         stopButton.isEnabled = false
+        saveButton.isEnabled = false
     }
     
     func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
@@ -259,7 +258,12 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
     @IBAction func savePlaces(_ sender: UIBarButtonItem) {
         let dataString : String = prepareWriteString()
         
-        let url = self.getDocumentsDirectory().appendingPathComponent("data.csv")
+        let timestamp = Date()
+        let formatter = DateFormatter()
+        formatter.dateFormat = "dd_MM_yy_HH_mm"
+        let fileName: String = formatter.string(from: timestamp) + ".csv"
+       // let url = self.getDocumentsDirectory().appendingPathComponent("data.csv")
+        let url = self.getDocumentsDirectory().appendingPathComponent(fileName)
         
         do {
             try dataString.write(to: url, atomically: true, encoding: .utf8)
@@ -269,6 +273,27 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
             print(error.localizedDescription)
         }
         read()
+        let destroy = defaults.bool(forKey: "destroyOnSave")
+        if destroy {
+            // New stuff starts here
+            
+            visitedLocations.removeAll()
+            //    places.removeAll()
+            guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
+                return
+            }
+            // 1
+            let managedObjectContext = appDelegate.persistentContainer.viewContext
+            let fetchRequest: NSFetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Place")
+            let batchDeleteRequest = NSBatchDeleteRequest(fetchRequest: fetchRequest)
+            do {
+                try managedObjectContext.executeAndMergeChanges(using: batchDeleteRequest)
+            } catch {
+                print ("Unexpected Error")
+            }
+        }
+        plotCurrentTrack()
+        // ends here
     }
     
     func read() {
@@ -286,6 +311,7 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
         recordButton.isEnabled = true
         pauseButton.isEnabled = true
         stopButton.isEnabled = false
+        saveButton.isEnabled = true
         isRecording = false
     }
     
@@ -293,6 +319,7 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
         recordButton.isEnabled = true
         stopButton.isEnabled = true
         pauseButton.isEnabled = false
+        saveButton.isEnabled = false
         isRecording = false
     }
     
@@ -300,6 +327,7 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
         recordButton.isEnabled = false
         stopButton.isEnabled = true
         pauseButton.isEnabled = true
+        saveButton.isEnabled = false
         isRecording = true
         
         self.recordingThreshold = self.recordingThresholds[mode]
@@ -324,24 +352,19 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
     //MARK: Additional stuff for CoreData
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
+        var places: [NSManagedObject] = []
         // Remove all saved locations
         visitedLocations.removeAll()
         
-        //1
+        
         guard let appDelegate =
             UIApplication.shared.delegate as? AppDelegate else {
                 return
         }
         
-        let managedContext =
-            appDelegate.persistentContainer.viewContext
+        let managedContext = appDelegate.persistentContainer.viewContext
+        let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Place")
         
-        //2
-        let fetchRequest =
-            NSFetchRequest<NSManagedObject>(entityName: "Place")
-        
-        //3
         do {
             places = try managedContext.fetch(fetchRequest)
             
@@ -352,7 +375,7 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
                 let horizontalAccuracy = place.value(forKeyPath: "horizontalAccuracy") as? Double
                 let verticalAccuracy = place.value(forKeyPath: "verticalAccuracy") as? Double
                 let timestamp = (place.value(forKey: "timestamp") as? Date)
-
+                
                 let coordinate = CLLocationCoordinate2DMake(latitude!, longitude!)
                 let currentLocation = CLLocation(coordinate: coordinate, altitude: elevation!, horizontalAccuracy:horizontalAccuracy!, verticalAccuracy: verticalAccuracy!,  timestamp: timestamp!)
                 
@@ -402,4 +425,20 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
         }
     }
 }
+
+// https://www.avanderlee.com/swift/nsbatchdeleterequest-core-data/
+extension NSManagedObjectContext {
+    
+    /// Executes the given `NSBatchDeleteRequest` and directly merges the changes to bring the given managed object context up to date.
+    ///
+    /// - Parameter batchDeleteRequest: The `NSBatchDeleteRequest` to execute.
+    /// - Throws: An error if anything went wrong executing the batch deletion.
+    public func executeAndMergeChanges(using batchDeleteRequest: NSBatchDeleteRequest) throws {
+        batchDeleteRequest.resultType = .resultTypeObjectIDs
+        let result = try execute(batchDeleteRequest) as? NSBatchDeleteResult
+        let changes: [AnyHashable: Any] = [NSDeletedObjectsKey: result?.result as? [NSManagedObjectID] ?? []]
+        NSManagedObjectContext.mergeChanges(fromRemoteContextSave: changes, into: [self])
+    }
+}
+
 
