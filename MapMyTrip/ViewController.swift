@@ -20,6 +20,7 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
     @IBOutlet weak var pauseButton: UIBarButtonItem!
     @IBOutlet weak var recordButton: UIBarButtonItem!
     @IBOutlet weak var printButton: UIBarButtonItem!
+    @IBOutlet weak var saveButton: UIBarButtonItem!
     
     // MARK: Properties
     var locationManager: CLLocationManager!
@@ -58,6 +59,7 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
         getPermissions()
         setUpMap()
         setupUserTrackingButtonAndScaleView()
+        
     }
     
     // MARK:  Events
@@ -106,6 +108,63 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
     }
     
     // MARK: Functions
+    
+    func getDocumentsDirectory() -> URL {
+          let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
+          return paths[0]
+      }
+    
+    // Prepare visitedLocations for saving
+    func prepareWriteString() -> String{
+        // Intiialise data string
+        var outputString = ""
+        var outputData: [String] = []
+        for place in visitedLocations {
+
+            let placeString = makeString(place: place)
+            outputData.append(placeString)
+        }
+        outputString = outputData.joined(separator: "\n")
+        return outputString
+    }
+    
+    // Make String from a place
+    func makeString(place :CLLocation) -> String{
+        // Sart with an empty string
+        var data = ""
+        // and a CLocation
+        let latitude = place.coordinate.latitude
+        let longitude = place.coordinate.longitude
+        let timestamp = place.timestamp
+        let elevation = place.altitude
+        let haccuracy = place.horizontalAccuracy
+        let vaccuracy = place.verticalAccuracy
+        
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        let timStr = formatter.string(from: timestamp)
+        
+        // Convert to String data
+        let latStr = "\(latitude)"
+        let longStr = "\(longitude)"
+        let haccStr = "\(haccuracy)"
+        let vaccStr = "\(vaccuracy)"
+        let eleStr = "\(elevation)"
+
+        var  dataArray: [String] = []
+        dataArray.append(latStr)
+        dataArray.append(longStr)
+        dataArray.append(haccStr)
+        dataArray.append(vaccStr)
+        dataArray.append(eleStr)
+        dataArray.append(timStr)
+        
+        let dataString = dataArray.joined(separator: ",")
+        return dataString
+    }
+    
+    
+    
     // Plots track loaded from visitedLocations array
     func plotCurrentTrack() {
         if (visitedLocations.last as CLLocation?) != nil {
@@ -174,6 +233,8 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
     }
     
     
+    
+    
     // MARK: Actions
     func onReturnFromSettings(mode: Int) {
         self.mode = mode
@@ -190,6 +251,32 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
             let altitude = location.altitude
             let timestamp = location.timestamp
             print("Location: \(altitude)")
+        }
+    }
+    
+    @IBAction func savePlaces(_ sender: UIBarButtonItem) {
+        let dataString : String = prepareWriteString()
+        
+        let url = self.getDocumentsDirectory().appendingPathComponent("data.csv")
+        
+        do {
+            try dataString.write(to: url, atomically: true, encoding: .utf8)
+            let input = try String(contentsOf: url)
+            print(input)
+        } catch {
+            print(error.localizedDescription)
+        }
+        read()
+    }
+    
+    func read() {
+        let url = self.getDocumentsDirectory().appendingPathComponent("data.csv")
+        
+        do {
+            let input = try String(contentsOf: url)
+            print(input)
+        } catch {
+            print(error.localizedDescription)
         }
     }
     
@@ -269,7 +356,7 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
                 
                 visitedLocations.append(currentLocation)
             }
-        
+            
         } catch let error as NSError {
             print("Could not fetch. \(error), \(error.userInfo)")
         }

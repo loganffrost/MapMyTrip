@@ -47,6 +47,12 @@
                                             <action selector="printLocations:" destination="BYZ-38-t0r" id="Hpf-7W-nKS"/>
                                         </connections>
                                     </barButtonItem>
+                                    <barButtonItem title="Save Button" image="save" id="URc-xM-zMl">
+                                        <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <connections>
+                                            <action selector="savePlaces:" destination="BYZ-38-t0r" id="lMN-5S-zkC"/>
+                                        </connections>
+                                    </barButtonItem>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="KAz-yL-xmM"/>
                                 </items>
                             </toolbar>
@@ -82,6 +88,7 @@
                         <outlet property="pauseButton" destination="kbH-AW-btU" id="0ed-MG-rR5"/>
                         <outlet property="printButton" destination="Dt5-X3-6uQ" id="2ie-h8-a4E"/>
                         <outlet property="recordButton" destination="eyc-As-tBN" id="joH-pr-8CQ"/>
+                        <outlet property="saveButton" destination="URc-xM-zMl" id="XmU-5o-fXu"/>
                         <outlet property="stopButton" destination="iqS-7G-Fme" id="2qb-Mw-8dg"/>
                     </connections>
                 </viewController>
@@ -219,6 +226,7 @@
         <image name="pause" width="25" height="25"/>
         <image name="printer.fill" catalog="system" width="128" height="111"/>
         <image name="run" width="25" height="25"/>
+        <image name="save" width="25" height="25"/>
         <image name="settings" width="25" height="25"/>
         <image name="start" width="25" height="25"/>
         <image name="stop" width="25" height="25"/>
