@@ -11,15 +11,31 @@ import UIKit
 class TrackDetailViewController: UIViewController {
     // MARK: Properties
     var file: URL?
+    var fileData: [String]!
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
-       let  filename = file?.lastPathComponent
-        print("\(filename!)")
+
+        fileData = readFile(url: file!)
+        
     }
-
-
+    
+    // Read trackdata from storage
+    // Return array of Strings
+    func readFile(url :URL) -> [String] {
+        var points:[String] = []
+        let path = url.path
+        let fileContents = FileManager.default.contents(atPath: path)
+        let fileContentsAsString = String(bytes: fileContents!, encoding: .utf8)
+        
+        // Split lines then append to array
+        let lines = fileContentsAsString!.split(separator: "\n")
+        for line in lines {
+            points.append(String(line))
+        }
+        return points
+    }
 
     /*
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
