@@ -9,6 +9,8 @@
 // TODO: Add show tracks option to Settings
 // Check for new insta;;ation - no tracks returned etc.
 //  1 - Delete tracks from CoreData works when saving
+//  2 - Make fileName safe
+//  3 - Re-configure button enabled
 
 import UIKit
 import MapKit
@@ -202,7 +204,7 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
         printButton.isEnabled = false
         recordButton.isEnabled = true
         stopButton.isEnabled = false
-        saveButton.isEnabled = true
+        saveButton.isEnabled = false
     }
     
     func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
@@ -244,16 +246,17 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
     func showInputDialog() {
         //Creating UIAlertController and
         //Setting title and message for the alert dialog
-        let alertController = UIAlertController(title: "Enter track name", message: nil, preferredStyle: .alert)
+        let messageText : String!
+        if destroyOnSave == true {
+            messageText = "This will destroy the current track!"
+        } else { messageText = "" }
+        
+        let alertController = UIAlertController(title: "Enter track name", message: messageText, preferredStyle: .alert)
         
         //the confirm action taking the inputs
         let confirmAction = UIAlertAction(title: "OK", style: .default) { (_) in
-            
-            //getting the input values from user
             self.fileName = alertController.textFields?[0].text
-            
-           // self.filename = "Name: " + name!
-            
+            self.saveTrackData()
         }
         
         //the cancel action doing nothing
@@ -263,7 +266,6 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
         alertController.addTextField { (textField) in
             textField.placeholder = "Enter Track Name here"
         }
-        alertController.editButtonItem
         
         //adding the action to dialogbox
         alertController.addAction(confirmAction)
@@ -291,10 +293,10 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
         
         let dataString : String = prepareWriteString()
         
-        let timestamp = Date()
-        let formatter = DateFormatter()
-        formatter.dateFormat = "dd_MM_yy_HH_mm"
-        fileName = formatter.string(from: timestamp) + ".csv"
+//        let timestamp = Date()
+//        let formatter = DateFormatter()
+//        formatter.dateFormat = "dd_MM_yy_HH_mm"
+        fileName = fileName + ".csv"
         let url = self.getDocumentsDirectory().appendingPathComponent(fileName)
         
         do {
@@ -340,7 +342,7 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
     
     @IBAction func stopPlayer(_ sender: Any) {
         recordButton.isEnabled = true
-        pauseButton.isEnabled = true
+        pauseButton.isEnabled = false
         stopButton.isEnabled = false
         saveButton.isEnabled = true
         isRecording = false
@@ -360,7 +362,8 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
         pauseButton.isEnabled = true
         saveButton.isEnabled = false
         isRecording = true
-        
+    
+        // Check that threshold is up to date
         self.recordingThreshold = self.recordingThresholds[mode]
     }
     
