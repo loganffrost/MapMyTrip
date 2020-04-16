@@ -7,6 +7,8 @@
 //
 
 // TODO: Add show tracks option to Settings
+// Check for new insta;;ation - no tracks returned etc.
+//  1 - Delete tracks from CoreData works when saving
 
 import UIKit
 import MapKit
