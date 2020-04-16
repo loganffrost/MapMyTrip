@@ -9,6 +9,7 @@
 import UIKit
 
 class TracksTableViewController: UITableViewController {
+    var files = [URL]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,15 +28,18 @@ class TracksTableViewController: UITableViewController {
         let docDir = try! FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: true)
         let URLs = try! FileManager.default.contentsOfDirectory(at: docDir, includingPropertiesForKeys: nil)
         for file in URLs {
-            let filename = file.lastPathComponent
-            do {
-                let fileManager = FileManager.default
-                let attributes = try fileManager.attributesOfItem(atPath: file.path)
-                let fileDate = attributes[FileAttributeKey(rawValue: "NSFileCreationDate")]!
-            } catch {
-                // 6
-                print( "No information available for")
-            }
+            files.append(file)
+            /*
+             let filename = file.lastPathComponent
+             do {
+             let fileManager = FileManager.default
+             let attributes = try fileManager.attributesOfItem(atPath: file.path)
+             let fileDate = attributes[FileAttributeKey(rawValue: "NSFileCreationDate")]!
+             } catch {
+             // 6
+             print( "No information available for")
+             }
+             */
         }
     }
     
@@ -48,18 +52,34 @@ class TracksTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return 0
+        return files.count
     }
     
-    /*
+    
      override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-     let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
+     let cell = tableView.dequeueReusableCell(withIdentifier: "TracksTableViewCell", for: indexPath) as! TracksTableViewCell
      
-     // Configure the cell...
+        let file = files[indexPath.row]
+        let filename = file.lastPathComponent
+        let creationDate = ""
+        
+        do {
+        let fileManager = FileManager.default
+        let attributes = try fileManager.attributesOfItem(atPath: file.path)
+        let fileDate = attributes[FileAttributeKey(rawValue: "NSFileCreationDate")]!
+            let date: Date = attributes[FileAttributeKey(rawValue: "NSFileCreationDate")] as! Date
+
+        cell.dateLabel.text = "\(fileDate)"
+        } catch {
+        // 6
+        print( "No information available for")
+        }
+        
+        cell.filenameLabel.text = filename
      
      return cell
      }
-     */
+     
     
     /*
      // Override to support conditional editing of the table view.

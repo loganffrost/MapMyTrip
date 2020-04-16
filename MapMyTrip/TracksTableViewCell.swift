@@ -10,8 +10,8 @@ import UIKit
 
 class TracksTableViewCell: UITableViewCell {
     
-    @IBOutlet weak var trackDate: UILabel!
-    @IBOutlet weak var trackDescription: UILabel!
+    @IBOutlet weak var dateLabel: UILabel!
+    @IBOutlet weak var filenameLabel: UILabel!
     
     override func awakeFromNib() {
         super.awakeFromNib()
