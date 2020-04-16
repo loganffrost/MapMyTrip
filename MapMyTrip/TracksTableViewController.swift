@@ -114,14 +114,29 @@ class TracksTableViewController: UITableViewController {
      }
      */
     
-    /*
+    
      // MARK: - Navigation
      
      // In a storyboard-based application, you will often want to do a little preparation before navigation
      override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
+        guard let TrackDetailViewController = segue.destination as? TrackDetailViewController else {
+            fatalError("Unexpected destination: \(segue.destination)")
+        }
+        
+        guard let selectedTrackCell = sender as? TracksTableViewCell else {
+            fatalError("Unexpected sender: \(String(describing: sender))")
+        }
+        
+        guard let indexPath = tableView.indexPath(for: selectedTrackCell) else {
+            fatalError("The selected cell is not being displayed by the table")
+        }
+        
+        let selectedFile = files[indexPath.row]
+        TrackDetailViewController.file = selectedFile
      // Get the new view controller using segue.destination.
      // Pass the selected object to the new view controller.
      }
-     */
+     
     
 }
