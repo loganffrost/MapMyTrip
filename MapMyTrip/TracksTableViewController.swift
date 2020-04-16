@@ -56,30 +56,37 @@ class TracksTableViewController: UITableViewController {
     }
     
     
-     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-     let cell = tableView.dequeueReusableCell(withIdentifier: "TracksTableViewCell", for: indexPath) as! TracksTableViewCell
-     
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "TracksTableViewCell", for: indexPath) as! TracksTableViewCell
+        
         let file = files[indexPath.row]
         let filename = file.lastPathComponent
-        let creationDate = ""
         
         do {
-        let fileManager = FileManager.default
-        let attributes = try fileManager.attributesOfItem(atPath: file.path)
-        let fileDate = attributes[FileAttributeKey(rawValue: "NSFileCreationDate")]!
+            let fileManager = FileManager.default
+            let attributes = try fileManager.attributesOfItem(atPath: file.path)
+        //    let fileDate = attributes[FileAttributeKey(rawValue: "NSFileCreationDate")]!
             let date: Date = attributes[FileAttributeKey(rawValue: "NSFileCreationDate")] as! Date
-
-        cell.dateLabel.text = "\(fileDate)"
+            
+            
+            let dateFormatter = DateFormatter()
+          //  formatter.dateFormat = "yyyy"
+            dateFormatter.dateStyle = .short
+            dateFormatter.timeStyle = .short
+            let timStr = dateFormatter.string(from: date)
+            
+       //     cell.dateLabel.text = "\(fileDate)"
+            cell.dateLabel.text = timStr
         } catch {
-        // 6
-        print( "No information available for")
+            // 6
+            print( "No information available for")
         }
         
         cell.filenameLabel.text = filename
-     
-     return cell
-     }
-     
+        
+        return cell
+    }
+    
     
     /*
      // Override to support conditional editing of the table view.

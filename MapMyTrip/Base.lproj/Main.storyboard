@@ -112,21 +112,31 @@
                                     <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="dateLabel" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="D2q-16-OQ3">
-                                            <rect key="frame" x="16" y="11" width="127.5" height="20.5"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="filenameLabel" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zTj-13-zWz">
+                                            <rect key="frame" x="16" y="11" width="208" height="21"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="filenameLabel" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zTj-13-zWz">
-                                            <rect key="frame" x="151" y="11" width="208" height="21"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="dateLabel" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="D2q-16-OQ3">
+                                            <rect key="frame" x="232" y="12" width="127.5" height="20.5"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" constant="127.5" id="eAH-im-djW"/>
+                                            </constraints>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                     </subviews>
+                                    <constraints>
+                                        <constraint firstItem="zTj-13-zWz" firstAttribute="centerY" secondItem="D2q-16-OQ3" secondAttribute="centerY" id="8TQ-dL-Ql1"/>
+                                        <constraint firstItem="D2q-16-OQ3" firstAttribute="leading" secondItem="zTj-13-zWz" secondAttribute="trailing" constant="8" id="CFV-g1-V3r"/>
+                                        <constraint firstAttribute="trailingMargin" secondItem="D2q-16-OQ3" secondAttribute="trailing" constant="-0.5" id="NOE-dP-DVW"/>
+                                        <constraint firstItem="zTj-13-zWz" firstAttribute="leading" secondItem="rO2-VW-0cK" secondAttribute="leadingMargin" id="RT8-tP-ZNh"/>
+                                        <constraint firstItem="D2q-16-OQ3" firstAttribute="bottom" secondItem="rO2-VW-0cK" secondAttribute="bottomMargin" id="Rfh-kh-QBx"/>
+                                        <constraint firstItem="zTj-13-zWz" firstAttribute="centerY" secondItem="rO2-VW-0cK" secondAttribute="centerY" id="UdQ-H6-Lcf"/>
+                                        <constraint firstItem="zTj-13-zWz" firstAttribute="top" secondItem="rO2-VW-0cK" secondAttribute="topMargin" id="hBX-4b-95H"/>
+                                    </constraints>
                                 </tableViewCellContentView>
                                 <connections>
                                     <outlet property="dateLabel" destination="D2q-16-OQ3" id="a77-rU-i1g"/>
