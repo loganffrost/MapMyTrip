@@ -29,17 +29,6 @@ class TracksTableViewController: UITableViewController {
         let URLs = try! FileManager.default.contentsOfDirectory(at: docDir, includingPropertiesForKeys: nil)
         for file in URLs {
             files.append(file)
-            /*
-             let filename = file.lastPathComponent
-             do {
-             let fileManager = FileManager.default
-             let attributes = try fileManager.attributesOfItem(atPath: file.path)
-             let fileDate = attributes[FileAttributeKey(rawValue: "NSFileCreationDate")]!
-             } catch {
-             // 6
-             print( "No information available for")
-             }
-             */
         }
     }
     
@@ -60,7 +49,8 @@ class TracksTableViewController: UITableViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: "TracksTableViewCell", for: indexPath) as! TracksTableViewCell
         
         let file = files[indexPath.row]
-        let filename = file.lastPathComponent
+        var filename = file.lastPathComponent
+        filename = String(filename[..<filename.firstIndex(of: ".")!])
         
         do {
             let fileManager = FileManager.default
@@ -73,6 +63,7 @@ class TracksTableViewController: UITableViewController {
           //  formatter.dateFormat = "yyyy"
             dateFormatter.dateStyle = .short
             dateFormatter.timeStyle = .short
+            dateFormatter.doesRelativeDateFormatting = true
             let timStr = dateFormatter.string(from: date)
             
        //     cell.dateLabel.text = "\(fileDate)"

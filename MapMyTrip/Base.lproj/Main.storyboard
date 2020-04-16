@@ -155,6 +155,62 @@
             </objects>
             <point key="canvasLocation" x="1864.8" y="136.28185907046478"/>
         </scene>
+        <!--View Controller-->
+        <scene sceneID="oHZ-bs-QTX">
+            <objects>
+                <viewController id="vx8-MZ-HT6" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="5V4-rc-7tB">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="JfN-Og-oGY">
+                                <rect key="frame" x="16" y="20" width="343" height="34"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="34" id="7CD-OM-o6d"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" textContentType="url"/>
+                            </textField>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6u3-8w-RS2">
+                                <rect key="frame" x="16" y="62" width="343" height="93"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="rLg-Wf-NWx">
+                                <rect key="frame" x="310" y="163" width="49" height="31"/>
+                            </switch>
+                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QjO-MR-raV">
+                                <rect key="frame" x="164" y="163" width="46" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="cPK-nY-7ah"/>
+                                </constraints>
+                                <state key="normal" title="Button"/>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="6u3-8w-RS2" firstAttribute="trailing" secondItem="rLg-Wf-NWx" secondAttribute="trailing" id="EkV-Ob-IQ2"/>
+                            <constraint firstItem="QjO-MR-raV" firstAttribute="centerY" secondItem="rLg-Wf-NWx" secondAttribute="centerY" id="KzK-wf-HN6"/>
+                            <constraint firstItem="QjO-MR-raV" firstAttribute="leading" secondItem="MPH-Sf-Q5E" secondAttribute="leading" constant="164" id="LDk-4R-ldo"/>
+                            <constraint firstItem="6u3-8w-RS2" firstAttribute="top" secondItem="JfN-Og-oGY" secondAttribute="bottom" constant="8" id="QBQ-Mr-SZd"/>
+                            <constraint firstItem="JfN-Og-oGY" firstAttribute="trailing" secondItem="5V4-rc-7tB" secondAttribute="trailingMargin" id="cFa-1P-CHi"/>
+                            <constraint firstItem="JfN-Og-oGY" firstAttribute="top" secondItem="MPH-Sf-Q5E" secondAttribute="top" constant="20" id="dC4-nu-9Pm"/>
+                            <constraint firstItem="QjO-MR-raV" firstAttribute="top" secondItem="rLg-Wf-NWx" secondAttribute="top" id="gWh-r1-aE3"/>
+                            <constraint firstItem="JfN-Og-oGY" firstAttribute="leading" secondItem="5V4-rc-7tB" secondAttribute="leadingMargin" id="h51-PP-Kvt"/>
+                            <constraint firstItem="JfN-Og-oGY" firstAttribute="trailing" secondItem="6u3-8w-RS2" secondAttribute="trailing" id="nYQ-Yl-yWs"/>
+                            <constraint firstItem="JfN-Og-oGY" firstAttribute="leading" secondItem="6u3-8w-RS2" secondAttribute="leading" id="qHL-eM-h54"/>
+                            <constraint firstItem="QjO-MR-raV" firstAttribute="top" secondItem="6u3-8w-RS2" secondAttribute="bottom" constant="8" id="umM-h8-um5"/>
+                            <constraint firstItem="6u3-8w-RS2" firstAttribute="centerX" secondItem="QjO-MR-raV" secondAttribute="centerX" id="v6y-DH-Dtn"/>
+                            <constraint firstItem="MPH-Sf-Q5E" firstAttribute="bottom" secondItem="rLg-Wf-NWx" secondAttribute="bottom" constant="453" id="w10-kZ-7LL"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="MPH-Sf-Q5E"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Cwz-fL-uRJ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2680.8000000000002" y="136.28185907046478"/>
+        </scene>
         <!--Settings View Controller-->
         <scene sceneID="SoG-nM-KVN">
             <objects>

@@ -37,6 +37,7 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
     var visitedLocations: [CLLocation]!
     var previousLocation : CLLocation!
     var newLocation : CLLocation!
+    var fileName: String!
     
     // var places: [NSManagedObject] = []
     
@@ -179,7 +180,7 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
     // Gets permisiions for location services
     func getPermissions() {
         // user activated automatic authorization info mode
-        var status = CLLocationManager.authorizationStatus()
+        let status = CLLocationManager.authorizationStatus()
         if status == .notDetermined || status == .denied || status == .authorizedWhenInUse {
             // present an alert indicating location authorization required
             // and offer to take the user to Settings for the app via
@@ -201,7 +202,7 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
         printButton.isEnabled = false
         recordButton.isEnabled = true
         stopButton.isEnabled = false
-        saveButton.isEnabled = false
+        saveButton.isEnabled = true
     }
     
     func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
@@ -239,32 +240,61 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
     
     
     // MARK: Actions
+    // See - https://www.simplifiedios.net/ios-dialog-box-with-input/
+    func showInputDialog() {
+        //Creating UIAlertController and
+        //Setting title and message for the alert dialog
+        let alertController = UIAlertController(title: "Enter track name", message: nil, preferredStyle: .alert)
+        
+        //the confirm action taking the inputs
+        let confirmAction = UIAlertAction(title: "OK", style: .default) { (_) in
+            
+            //getting the input values from user
+            self.fileName = alertController.textFields?[0].text
+            
+           // self.filename = "Name: " + name!
+            
+        }
+        
+        //the cancel action doing nothing
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { (_) in }
+        
+        //adding textfields to our dialog box
+        alertController.addTextField { (textField) in
+            textField.placeholder = "Enter Track Name here"
+        }
+        alertController.editButtonItem
+        
+        //adding the action to dialogbox
+        alertController.addAction(confirmAction)
+        alertController.addAction(cancelAction)
+        
+        //finally presenting the dialog box
+        self.present(alertController, animated: true, completion: nil)
+    }
+    
     func onReturnFromSettings(mode: Int) {
         self.mode = mode
         self.recordingThreshold = self.recordingThresholds[mode]
         // print("Threshold - \(recordingThreshold)")
     }
     
-    @IBAction func saveCurrentTrack(_ sender: UIBarButtonItem) {
-        // save(visitedLocations: visitedLocations)
-    }
-    
     @IBAction func printLocations(_ sender: Any) {
-        for location in visitedLocations {
-            let altitude = location.altitude
-            let timestamp = location.timestamp
-            print("Location: \(altitude)")
-        }
+
     }
     
-    @IBAction func savePlaces(_ sender: UIBarButtonItem) {
+    @IBAction func savePlaces (_ sender: Any) {
+        showInputDialog()
+    }
+    
+    func saveTrackData() {
+        
         let dataString : String = prepareWriteString()
         
         let timestamp = Date()
         let formatter = DateFormatter()
         formatter.dateFormat = "dd_MM_yy_HH_mm"
-        let fileName: String = formatter.string(from: timestamp) + ".csv"
-       // let url = self.getDocumentsDirectory().appendingPathComponent("data.csv")
+        fileName = formatter.string(from: timestamp) + ".csv"
         let url = self.getDocumentsDirectory().appendingPathComponent(fileName)
         
         do {
