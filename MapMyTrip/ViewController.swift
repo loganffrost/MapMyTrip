@@ -16,6 +16,7 @@ import UIKit
 import MapKit
 import CoreLocation
 import CoreData
+import CoreFoundation
 
 class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate {
     // MARK: Outlets
@@ -78,6 +79,21 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
         plotCurrentTrack()
     }
     
+    func getFileManager () {
+        // Create a document picker for directories.
+        let documentPicker =
+            UIDocumentPickerViewController(documentTypes: [kUTTypeFolder as String],
+                                           in: .open)
+
+        documentPicker.delegate = self
+
+        // Set the initial directory.
+        documentPicker.directoryURL = startingDirectory
+
+        // Present the document picker.
+        present(documentPicker, animated: true, completion: nil)
+    }
+    
     // Called when CLLocationManager detects a change in location
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         // Check whether recording is triggered
@@ -89,19 +105,25 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
             guard let currentLocation = locations.first else {
                 return
             }
-            // Check for accuracy
-            if currentLocation.horizontalAccuracy > 50 {
-                return
-            }
+            
             // Display for status bar
             let altitude = currentLocation.altitude
             let lat = currentLocation.coordinate.latitude
             let long = currentLocation.coordinate.longitude
             let hacc = currentLocation.horizontalAccuracy
-            let status : String = "Recording: \nLat: \(lat) \nLong: \(long) \nAltitude: \(altitude) \nAccuracy: \(hacc)"
+            let speed = currentLocation.speed
+            
+            
+            let status : String = "Recording: \nLat: \(lat) \nLong: \(long) \nAltitude: \(altitude) \nAccuracy: \(hacc) \nSpeed: \(speed)"
             statusLabel.lineBreakMode = .byWordWrapping // notice the 'b' instead of 'B'
             statusLabel.numberOfLines = 0
             statusLabel.text = status
+            
+            
+            // Check for accuracy
+            if currentLocation.horizontalAccuracy > 50 {
+                return
+            }
             
             
             // Check for sensible distance from most recent location

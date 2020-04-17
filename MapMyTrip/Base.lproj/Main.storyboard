@@ -2,7 +2,7 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16096" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="rSH-Th-4XJ">
     <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16086"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -56,10 +56,11 @@
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="KAz-yL-xmM"/>
                                 </items>
                             </toolbar>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Hwj-P6-fIq">
-                                <rect key="frame" x="16" y="56" width="343" height="66"/>
+                            <label opaque="NO" userInteractionEnabled="NO" alpha="0.5" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Hwj-P6-fIq">
+                                <rect key="frame" x="16" y="56" width="178" height="102"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="66" id="jTR-8S-9Qd"/>
+                                    <constraint firstAttribute="height" constant="102" id="g4c-9G-G03"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" style="UICTFontTextStyleCaption1"/>
                                 <nil key="textColor"/>
@@ -71,11 +72,11 @@
                             <constraint firstItem="SHd-K3-tKJ" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="topMargin" constant="-64" id="0jQ-Vf-ZD9"/>
                             <constraint firstItem="NzR-M2-ziz" firstAttribute="top" secondItem="SHd-K3-tKJ" secondAttribute="bottom" id="4ku-UK-x69"/>
                             <constraint firstItem="NzR-M2-ziz" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" id="99a-qy-fnf"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="Hwj-P6-fIq" secondAttribute="trailing" constant="181" id="GcJ-fm-vv8"/>
                             <constraint firstItem="SHd-K3-tKJ" firstAttribute="leading" secondItem="NzR-M2-ziz" secondAttribute="leading" id="MFC-jQ-2Qt"/>
-                            <constraint firstItem="Hwj-P6-fIq" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" id="S7q-hC-lKo"/>
+                            <constraint firstItem="Hwj-P6-fIq" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" id="Toe-Cy-yBM"/>
                             <constraint firstItem="SHd-K3-tKJ" firstAttribute="trailing" secondItem="NzR-M2-ziz" secondAttribute="trailing" id="XXh-ko-Tfe"/>
-                            <constraint firstItem="Hwj-P6-fIq" firstAttribute="centerX" secondItem="NzR-M2-ziz" secondAttribute="centerX" id="daq-O1-aEL"/>
-                            <constraint firstItem="Hwj-P6-fIq" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="12" id="l4a-gf-m1z"/>
+                            <constraint firstItem="Hwj-P6-fIq" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="12" id="YWy-Ij-6hd"/>
                             <constraint firstItem="NzR-M2-ziz" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="pVB-0J-Ewq"/>
                             <constraint firstItem="NzR-M2-ziz" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="u3E-ZI-4IY"/>
                         </constraints>
