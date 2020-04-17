@@ -25,6 +25,7 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
     @IBOutlet weak var recordButton: UIBarButtonItem!
     @IBOutlet weak var printButton: UIBarButtonItem!
     @IBOutlet weak var saveButton: UIBarButtonItem!
+    @IBOutlet weak var statusLabel: UILabel!
     
     // MARK: Properties
     var locationManager: CLLocationManager!
@@ -36,6 +37,7 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
     var recordingThreshold: Int!
     var mode: Int!
     var destroyOnSave: Bool!
+    var bgLocation: Bool!
     var visitedLocations: [CLLocation]!
     var previousLocation : CLLocation!
     var newLocation : CLLocation!
@@ -52,6 +54,8 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
         locationManager.delegate = self
         mapView.delegate = self
         isRecording = false
+        
+        statusLabel.text = ""
         
         // Set up array for visted locations
         visitedLocations = [CLLocation]()
@@ -80,6 +84,7 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
         
         if isRecording {
             var distance: CLLocationDistance!
+            //statusLabel.text = "Recording"
             // Check for location existing in locations
             guard let currentLocation = locations.first else {
                 return
@@ -88,6 +93,16 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
             if currentLocation.horizontalAccuracy > 50 {
                 return
             }
+            // Display for status bar
+            let altitude = currentLocation.altitude
+            let lat = currentLocation.coordinate.latitude
+            let long = currentLocation.coordinate.longitude
+            let hacc = currentLocation.horizontalAccuracy
+            let status : String = "Recording: \nLat: \(lat) \nLong: \(long) \nAltitude: \(altitude) \nAccuracy: \(hacc)"
+            statusLabel.lineBreakMode = .byWordWrapping // notice the 'b' instead of 'B'
+            statusLabel.numberOfLines = 0
+            statusLabel.text = status
+            
             
             // Check for sensible distance from most recent location
             // Check that this is not the first location
@@ -196,6 +211,8 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
         }
         locationManager.startUpdatingLocation()
         locationManager.startUpdatingHeading()
+        
+        bgLocation = defaults.bool(forKey: "bgLocation")
     }
     
     func setUpMap() {
@@ -352,6 +369,7 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
         stopButton.isEnabled = false
         saveButton.isEnabled = true
         isRecording = false
+        statusLabel.text = "Stopped"
     }
     
     @IBAction func pausePlayer(_ sender: Any) {
@@ -360,6 +378,7 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
         pauseButton.isEnabled = false
         saveButton.isEnabled = false
         isRecording = false
+        statusLabel.text = "Paused"
     }
     
     @IBAction func startRecording(_ sender: Any) {
@@ -368,6 +387,7 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
         pauseButton.isEnabled = true
         saveButton.isEnabled = false
         isRecording = true
+        statusLabel.text = "Recording"
     
         // Check that threshold is up to date
         self.recordingThreshold = self.recordingThresholds[mode]

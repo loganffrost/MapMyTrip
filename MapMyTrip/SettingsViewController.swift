@@ -9,11 +9,16 @@
 import UIKit
 
 class SettingsViewController: UIViewController {
+    // MARK: Properties
     var defaults : UserDefaults!
-    @IBOutlet weak var modeSelect: UISegmentedControl!
     var mainViewController: ViewController?
+    
+    // MARK: Outlets
+    @IBOutlet weak var modeSelect: UISegmentedControl!
     @IBOutlet weak var destroyOptionLabel: NSLayoutConstraint!
     @IBOutlet weak var destroySwitch: UISwitch!
+    @IBOutlet weak var allowBackgroundLocationLabel: UILabel!
+    @IBOutlet weak var backgroundLocationSwitch: UISwitch!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -21,12 +26,18 @@ class SettingsViewController: UIViewController {
         defaults = UserDefaults.standard
         modeSelect.selectedSegmentIndex = defaults.integer(forKey: "travelMode")
         destroySwitch.isOn = defaults.bool(forKey: "destroyOnSave")
+        backgroundLocationSwitch.isOn = defaults.bool(forKey: "bgLocation")
 
         // Do any additional setup after loading the view.
     }
     
     // MARK: Actions
-    @IBAction func destroySwitch(_ sender: Any, forEvent event: UIEvent) {
+    @IBAction func backgroundLocationSwitch(_ sender: UISwitch) {
+        let allowBgLocation = backgroundLocationSwitch.isOn
+        defaults.set(allowBgLocation, forKey: "bgLocation")
+    }
+    
+    @IBAction func destroySwitch(_ sender: UISwitch, forEvent event: UIEvent) {
         let isOn = destroySwitch.isOn
         defaults.set(isOn, forKey: "destroyOnSave")
     }
