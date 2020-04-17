@@ -106,14 +106,14 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="TracksTableViewCell" id="TZf-Y4-TCC" customClass="TracksTableViewCell" customModule="MapMyTrip">
-                                <rect key="frame" x="0.0" y="28" width="375" height="43.5"/>
+                                <rect key="frame" x="0.0" y="28" width="375" height="43"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="TZf-Y4-TCC" id="rO2-VW-0cK">
-                                    <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="43"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="filenameLabel" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zTj-13-zWz">
-                                            <rect key="frame" x="16" y="11" width="208" height="21.5"/>
+                                            <rect key="frame" x="16" y="11" width="208" height="21"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
@@ -163,14 +163,28 @@
                     <view key="view" contentMode="scaleToFill" id="8jO-c5-AXF">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="MJB-j5-OkT">
+                                <rect key="frame" x="0.0" y="44" width="375" height="623"/>
+                            </mapView>
+                        </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="MJB-j5-OkT" firstAttribute="top" secondItem="ab3-Hh-VNI" secondAttribute="top" id="BzX-ok-arK"/>
+                            <constraint firstItem="MJB-j5-OkT" firstAttribute="centerX" secondItem="8jO-c5-AXF" secondAttribute="centerX" id="VVG-Ek-O2X"/>
+                            <constraint firstItem="MJB-j5-OkT" firstAttribute="bottom" secondItem="ab3-Hh-VNI" secondAttribute="bottom" id="Y6C-69-EFm"/>
+                            <constraint firstItem="MJB-j5-OkT" firstAttribute="leading" secondItem="ab3-Hh-VNI" secondAttribute="leading" id="gfO-ki-Vho"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="ab3-Hh-VNI"/>
                     </view>
                     <navigationItem key="navigationItem" id="S2M-Gs-I6w"/>
+                    <connections>
+                        <outlet property="mapView" destination="MJB-j5-OkT" id="aEp-Xp-xbn"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="0Go-zY-g6x" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2634" y="141"/>
+            <point key="canvasLocation" x="2632.8000000000002" y="140.77961019490255"/>
         </scene>
         <!--Settings View Controller-->
         <scene sceneID="SoG-nM-KVN">

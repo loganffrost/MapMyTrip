@@ -10,7 +10,7 @@
 // Check for new insta;;ation - no tracks returned etc.
 //  1 - Delete tracks from CoreData works when saving
 //  2 - Make fileName safe
-//  3 - Re-configure button enabled
+//  3 - Check filenames for duplicates
 
 import UIKit
 import MapKit
@@ -84,6 +84,11 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
             guard let currentLocation = locations.first else {
                 return
             }
+            // Check for accuracy
+            if currentLocation.horizontalAccuracy > 50 {
+                return
+            }
+            
             // Check for sensible distance from most recent location
             // Check that this is not the first location
             if visitedLocations.count > 1 {
@@ -207,11 +212,12 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
         saveButton.isEnabled = false
     }
     
+    // Render track on map
     func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
         let renderer = MKPolylineRenderer(overlay: overlay)
-        renderer.strokeColor = UIColor.purple
-        renderer.lineWidth = 3.0
-        renderer.lineDashPattern = .some([4,4])
+        renderer.strokeColor = UIColor.blue
+        renderer.lineWidth = 5
+       // renderer.lineDashPattern = .some([4, 16, 16])
         return renderer
     }
     

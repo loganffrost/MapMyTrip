@@ -76,7 +76,6 @@
 				FA123C0624435B5E009B1C1E /* MapMyTrip */,
 				FA123C1D24435B61009B1C1E /* MapMyTripTests */,
 				FA123C0524435B5E009B1C1E /* Products */,
-				FAB4B03C2444B1C300E34F52 /* TracksTableViewController.swift */,
 			);
 			sourceTree = "<group>";
 		};
@@ -99,6 +98,7 @@
 				FAB4B03E2444C33600E34F52 /* TracksTableViewCell.swift */,
 				FAFD9BD92448AB7F004FE81A /* TrackDetailViewController.swift */,
 				FAB4B03A2444B14200E34F52 /* SettingsViewController.swift */,
+				FAB4B03C2444B1C300E34F52 /* TracksTableViewController.swift */,
 				FA123C0D24435B5E009B1C1E /* Main.storyboard */,
 				FA123C1024435B61009B1C1E /* Assets.xcassets */,
 				FA123C1224435B61009B1C1E /* LaunchScreen.storyboard */,

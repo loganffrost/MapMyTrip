@@ -9,20 +9,73 @@
 import UIKit
 import CoreLocation
 import Foundation
+import MapKit
 
-class TrackDetailViewController: UIViewController {
+
+class TrackDetailViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate  {
+    // MARK: Outlets
+    @IBOutlet weak var mapView: MKMapView!
+    
     // MARK: Properties
     var file: URL?
     var fileData: [String]!
     var track: [CLLocation]!
+    var locationManager: CLLocationManager!
+    var userLocation: CLLocation!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
+        locationManager = CLLocationManager()
+        locationManager.desiredAccuracy = kCLLocationAccuracyBest
+        locationManager.delegate = self
+        
+        mapView.delegate = self
         fileData = readFile(url: file!)
         track = convertToCLLocation(fileData: fileData)
+        plotCurrentTrack()
+        printTrackData()
+        centreMap(location: track[0])
     }
     
+    // Plots track loaded from visitedLocations array
+    func plotCurrentTrack() {
+        // if (visitedLocations.last as CLLocation?) != nil {
+        var coordinates = track.map({(location: CLLocation) -> CLLocationCoordinate2D in return location.coordinate})
+        let polyline = MKPolyline(coordinates: &coordinates, count: coordinates.count)
+        mapView.addOverlay(polyline)
+        //  }
+    }
+      
+    // Centre map on start of track
+    func centreMap(location: CLLocation){
+        let region_radius = 1000
+        let region = MKCoordinateRegion(center: location.coordinate,latitudinalMeters: CLLocationDistance(region_radius), longitudinalMeters: CLLocationDistance(region_radius))
+        mapView.setRegion(region, animated: true)
+          
+    }
+    
+    // Render track on map
+    func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
+        let renderer = MKPolylineRenderer(overlay: overlay)
+        renderer.strokeColor = UIColor.blue
+        renderer.lineWidth = 5
+       // renderer.lineDashPattern = .some([4, 16, 16])
+        return renderer
+    }
+    
+    func printTrackData () {
+        for point in track {
+            let loc = point.coordinate
+            let lat = loc.latitude
+            let long = loc.longitude
+            let hacc = point.horizontalAccuracy
+            let vacc = point.horizontalAccuracy
+            let elev = point.altitude
+             let timestamp = point.timestamp
+             print("\(lat) : \(long) : \(hacc) : \(vacc) : \(elev) : \(timestamp)")
+         }
+    }
     func  convertToCLLocation(fileData :[String]) -> [CLLocation] {
         var theLocations: [CLLocation] = []
         var theLocation: CLLocation!
