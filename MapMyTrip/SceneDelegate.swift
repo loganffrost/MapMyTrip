@@ -60,7 +60,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         print("sceneDidEnterBackground")
     }
-
-
+    
 }
 

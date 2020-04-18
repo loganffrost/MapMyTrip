@@ -17,8 +17,9 @@ import MapKit
 import CoreLocation
 import CoreData
 import CoreFoundation
+import CoreServices
 
-class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate {
+class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate, UIDocumentPickerDelegate {
     // MARK: Outlets
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var stopButton: UIBarButtonItem!
@@ -159,6 +160,7 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
     
     func getDocumentsDirectory() -> URL {
         let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
+            // let public = FileManager
         return paths[0]
     }
     
@@ -230,6 +232,7 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
             // and offer to take the user to Settings for the app via
             // UIApplication -openUrl: and UIApplicationOpenSettingsURLString
             locationManager.requestWhenInUseAuthorization()
+            locationManager.requestAlwaysAuthorization()
         }
         locationManager.startUpdatingLocation()
         locationManager.startUpdatingHeading()
@@ -245,7 +248,7 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
     
     func setupButtons() {
         pauseButton.isEnabled = false
-        printButton.isEnabled = false
+        printButton.isEnabled = true
         recordButton.isEnabled = true
         stopButton.isEnabled = false
         saveButton.isEnabled = false
@@ -327,11 +330,33 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
     }
     
     @IBAction func printLocations(_ sender: Any) {
-
+        readFromPublic()
     }
     
     @IBAction func savePlaces (_ sender: Any) {
         showInputDialog()
+    }
+    
+    func readFromPublic () {
+        
+            // open a document picker, select a file
+        // documentTypes see - https://developer.apple.com/library/archive/documentation/Miscellaneous/Reference/UTIRef/Articles/System-DeclaredUniformTypeIdentifiers.html#//apple_ref/doc/uid/TP40009259-SW1
+        
+            let importFileMenu = UIDocumentPickerViewController(documentTypes: ["public.text"],
+                                                                in: UIDocumentPickerMode.open)
+            importFileMenu.delegate = self
+            if #available(iOS 13.0, *) {
+                print("File iOS 13+")
+                importFileMenu.directoryURL = FileManager.default.containerURL(
+                    forSecurityApplicationGroupIdentifier: "group.com.alexsykes.MapMyTrip")!
+            } else {
+                // Fallback on earlier versions
+                print("File iOS <=12")
+            }
+            importFileMenu.modalPresentationStyle = .formSheet
+
+            self.present(importFileMenu, animated: true, completion: nil)
+        
     }
     
     func saveTrackData() {

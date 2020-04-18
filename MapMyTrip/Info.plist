@@ -61,8 +61,8 @@
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>Always mode is recommended for this app for improved location tracking</string>
+	<string>Always mode is strongly recommended for this app for improved location tracking</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>Allow device to access your location when in use</string>
+	<string>Allow Map my Trip to access your location</string>
 </dict>
 </plist>

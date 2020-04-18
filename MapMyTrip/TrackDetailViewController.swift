@@ -103,10 +103,8 @@ class TrackDetailViewController: UIViewController, MKMapViewDelegate, CLLocation
         let annotation = annotationView.annotation
         let id :String = (annotation?.title)!!
         let index :Int = Int(id)!
-        visitedPoints.remove(at: index)
-        
+        track.remove(at: index)
         plotPoints()
-        
     }
     
       
