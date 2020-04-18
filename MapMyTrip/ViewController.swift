@@ -343,7 +343,7 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
         // documentTypes see - https://developer.apple.com/library/archive/documentation/Miscellaneous/Reference/UTIRef/Articles/System-DeclaredUniformTypeIdentifiers.html#//apple_ref/doc/uid/TP40009259-SW1
         
             let importFileMenu = UIDocumentPickerViewController(documentTypes: ["public.text"],
-                                                                in: UIDocumentPickerMode.open)
+                                                                in: UIDocumentPickerMode.import)
             importFileMenu.delegate = self
             if #available(iOS 13.0, *) {
                 print("File iOS 13+")
