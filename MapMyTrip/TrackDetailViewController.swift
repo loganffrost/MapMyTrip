@@ -34,10 +34,10 @@ class TrackDetailViewController: UIViewController, MKMapViewDelegate, CLLocation
         mapView.delegate = self
         fileData = readFile(url: file!)
         track = convertToCLLocation(fileData: fileData)
-        // plotCurrentTrack()
+         plotCurrentTrack()
         // printTrackData()
         plotPoints()
-        centreMap(location: track[0])
+      //  centreMap(location: track[0])
     }
     
     // Plots track loaded from visitedLocations array
@@ -55,14 +55,60 @@ class TrackDetailViewController: UIViewController, MKMapViewDelegate, CLLocation
         var index = 0
         for point in track {
             let annotation = MKPointAnnotation()
-            annotation.subtitle = String(index)
+            annotation.title = "\(index)"
+            annotation.subtitle = "Click to delete"
             annotation.coordinate = point.coordinate
+            // annotation.description = String(index)
+            
             visitedPoints.append(annotation)
+            
             index += 1
-        
-            self.mapView.addAnnotation(annotation)
+            
+           // self.mapView.addAnnotation(annotation)
+            self.mapView.showAnnotations(visitedPoints, animated: true)
         }
     }
+    
+    // Modifications for adding action etc
+    // See - https://www.techotopia.com/index.php/Working_with_MapKit_Local_Search_in_iOS_8_and_Swift
+    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation)
+        -> MKAnnotationView? {
+        
+        let identifier = "marker"
+        var view: MKMarkerAnnotationView
+        
+//        if let dequeuedView = mapView.dequeueReusableAnnotationView(
+//                                 withIdentifier: identifier)
+//                                     as? MKMarkerAnnotationView {
+//            dequeuedView.annotation = annotation
+//            view = dequeuedView
+//        } else {
+            view =
+                MKMarkerAnnotationView(annotation: annotation,
+            reuseIdentifier: identifier)
+          //  view.markerTintColor = UIColor.blue
+         //   view.glyphText = "Here"
+
+            view.canShowCallout = true
+            view.calloutOffset = CGPoint(x: -5, y: 5)
+            view.rightCalloutAccessoryView = UIButton(type: .close)
+      //  }
+        return view
+    }
+    
+    // Action added to marker
+    func mapView(_: MKMapView, annotationView:
+         MKAnnotationView, calloutAccessoryControlTapped: UIControl) {
+        //id = calloutAccessoryControlTapped.
+        let annotation = annotationView.annotation
+        let id :String = (annotation?.title)!!
+        let index :Int = Int(id)!
+        visitedPoints.remove(at: index)
+        
+        plotPoints()
+        
+    }
+    
       
     // Centre map on start of track
     func centreMap(location: CLLocation){
