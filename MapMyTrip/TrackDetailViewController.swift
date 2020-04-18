@@ -20,6 +20,7 @@ class TrackDetailViewController: UIViewController, MKMapViewDelegate, CLLocation
     var file: URL?
     var fileData: [String]!
     var track: [CLLocation]!
+    var visitedPoints: [MKPointAnnotation]!
     var locationManager: CLLocationManager!
     var userLocation: CLLocation!
     
@@ -33,8 +34,9 @@ class TrackDetailViewController: UIViewController, MKMapViewDelegate, CLLocation
         mapView.delegate = self
         fileData = readFile(url: file!)
         track = convertToCLLocation(fileData: fileData)
-        plotCurrentTrack()
-        printTrackData()
+        // plotCurrentTrack()
+        // printTrackData()
+        plotPoints()
         centreMap(location: track[0])
     }
     
@@ -45,6 +47,21 @@ class TrackDetailViewController: UIViewController, MKMapViewDelegate, CLLocation
         let polyline = MKPolyline(coordinates: &coordinates, count: coordinates.count)
         mapView.addOverlay(polyline)
         //  }
+    }
+    
+    // Plot array of markers
+    func plotPoints () {
+        visitedPoints = []
+        var index = 0
+        for point in track {
+            let annotation = MKPointAnnotation()
+            annotation.subtitle = String(index)
+            annotation.coordinate = point.coordinate
+            visitedPoints.append(annotation)
+            index += 1
+        
+            self.mapView.addAnnotation(annotation)
+        }
     }
       
     // Centre map on start of track

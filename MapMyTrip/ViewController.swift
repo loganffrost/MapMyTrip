@@ -80,18 +80,18 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
     }
     
     func getFileManager () {
-        // Create a document picker for directories.
-        let documentPicker =
-            UIDocumentPickerViewController(documentTypes: [kUTTypeFolder as String],
-                                           in: .open)
-
-        documentPicker.delegate = self
-
-        // Set the initial directory.
-        documentPicker.directoryURL = startingDirectory
-
-        // Present the document picker.
-        present(documentPicker, animated: true, completion: nil)
+//        // Create a document picker for directories.
+//        let documentPicker =
+//            UIDocumentPickerViewController(documentTypes: [kUTTypeFolder as String],
+//                                           in: .open)
+//
+//        documentPicker.delegate = self
+//
+//        // Set the initial directory.
+//        documentPicker.directoryURL = startingDirectory
+//
+//        // Present the document picker.
+//        present(documentPicker, animated: true, completion: nil)
     }
     
     // Called when CLLocationManager detects a change in location
