@@ -359,7 +359,40 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
         
     }
     
-    func saveTrackData() {
+    func saveTrackData () {
+        
+    let documentPicker = UIDocumentPickerViewController(documentTypes: ["public.text"],  in: .open)
+        documentPicker.delegate = self
+        documentPicker.shouldShowFileExtensions = true
+        documentPicker.allowsMultipleSelection = true
+        present(documentPicker, animated: true) {
+            print("done presenting")
+        }
+    }
+    
+    
+    func documentPicker(_ controller: UIDocumentPickerViewController,
+                        didPickDocumentsAt urls: [URL]) {
+        
+        let dataString : String = prepareWriteString()
+        
+        let url = urls[0]
+
+        let directory = url.deletingLastPathComponent()        
+        let filename = url.lastPathComponent
+        print (filename)
+        // let dataString = "Again"
+        do {
+            try dataString.write(to: url, atomically: true, encoding: .utf8)
+            let input = try String(contentsOf: url)
+            print(input)
+        } catch {
+            print(error.localizedDescription)
+        }
+        
+    }
+    
+    func saveTrackData1() {
         
         let dataString : String = prepareWriteString()
         
