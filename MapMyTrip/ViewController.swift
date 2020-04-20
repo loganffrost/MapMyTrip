@@ -44,6 +44,7 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
     var previousLocation : CLLocation!
     var newLocation : CLLocation!
     var fileName: String!
+    var fileExtension: String!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -211,8 +212,6 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
         return dataString
     }
     
-    
-    
     // Prepare visitedLocations for saving as KML
     func prepareKMLString() -> String{
         // Intiialise data string
@@ -225,16 +224,17 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
         outputString += fileName
         outputString += "</name>\n<description>"
         outputString += description
+        outputString += "</description>\n<Style id=\"yellowLineGreenPoly\"><LineStyle><color>7f00ffff</color><width>4</width></LineStyle></Style><Placemark><name>Name of line</name><description>Description of line</description><styleUrl>#yellowLineGreenPoly</styleUrl><LineString><coordinates>"
         
         for place in visitedLocations {
             
             let placeString = makeKMLString(place: place)
             outputData.append(placeString)
         }
-        outputString = outputData.joined(separator: "\n")
+        outputString += outputData.joined(separator: "\n")
         
         // Add trailing data
-        
+        outputString += "</coordinates></LineString></Placemark></Document></kml>"
         
         return outputString
     }
@@ -261,6 +261,54 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
         let dataString = dataArray.joined(separator: ",")
         return dataString
     }
+    
+    // Prepare visitedLocations for saving as KML
+       func prepareGPXString() -> String{
+           // Intiialise data string
+           var outputData: [String] = []
+           
+           // Intiialise data string
+           // Add leading data
+           var outputString = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+           outputString += "<kml xmlns=\"http://www.opengis.net/kml/2.2\">\n<Document>\n<name>"
+           outputString += fileName
+           outputString += "</name>\n<description>"
+           outputString += description
+           
+           for place in visitedLocations {
+               
+               let placeString = makeGPXString(place: place)
+               outputData.append(placeString)
+           }
+           outputString = outputData.joined(separator: "\n")
+           
+           // Add trailing data
+           
+           
+           return outputString
+       }
+       
+       // Make GPX String from a place
+       func makeGPXString(place :CLLocation) -> String{
+           // Sart with an empty string
+           // and a CLocation
+           let latitude = place.coordinate.latitude
+           let longitude = place.coordinate.longitude
+           let elevation = place.altitude
+           
+           // Convert to String data
+           let latStr = "\(latitude)"
+           let longStr = "\(longitude)"
+           let eleStr = "\(elevation)"
+           
+           var  dataArray: [String] = []
+           dataArray.append(latStr)
+           dataArray.append(longStr)
+           dataArray.append(eleStr)
+           
+           let dataString = dataArray.joined(separator: ",")
+           return dataString
+       }
     
     
     
@@ -452,17 +500,17 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
         case 0:
             // CSV
             dataString  = prepareCSVString()
-            dataString += ".csv"
+            fileExtension = ".csv"
         case 1:
             // KML
-            dataString = "KML"
-            dataString += ".kml"
+            dataString = prepareKMLString()
+            fileExtension  = ".kml"
         case 2:
-            dataString  = "GPX"
-            dataString += ".gpx"
+            dataString  = prepareGPXString()
+            fileExtension  = ".txt"
         default:
             dataString  = ""
-            dataString += ".txt"
+            fileExtension  = ".txt"
         }
         
         
@@ -471,6 +519,7 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
         formatter.dateFormat = "_dd_MM_yy_HH_mm"
         print (fileName!)
         fileName += formatter.string(from: timestamp)
+        fileName += fileExtension
         
         let url = self.getDocumentsDirectory().appendingPathComponent(fileName)
         
