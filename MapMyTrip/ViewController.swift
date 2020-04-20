@@ -25,7 +25,6 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
     @IBOutlet weak var stopButton: UIBarButtonItem!
     @IBOutlet weak var pauseButton: UIBarButtonItem!
     @IBOutlet weak var recordButton: UIBarButtonItem!
-    @IBOutlet weak var printButton: UIBarButtonItem!
     @IBOutlet weak var saveButton: UIBarButtonItem!
     @IBOutlet weak var statusLabel: UILabel!
     
@@ -34,6 +33,7 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
     var userLocation: CLLocation!
     var isRecording: Bool!
     var transportMode: Int!
+    var fileFormat: Int!
     var defaults : UserDefaults!
     var recordingThresholds: [Int] = [1,5,10,25,25,50,100,100]
     var recordingThreshold: Int!
@@ -64,6 +64,7 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
         defaults = UserDefaults.standard
         mode = defaults.integer(forKey:"travelMode")
         destroyOnSave = defaults.bool(forKey: "destroyOnSave")
+        fileFormat = defaults.integer(forKey: "fileFormat")
         recordingThreshold = recordingThresholds[mode]
         
         setupButtons()
@@ -224,7 +225,7 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
         outputString += fileName
         outputString += "</name>\n<description>"
         outputString += description
-
+        
         for place in visitedLocations {
             
             let placeString = makeKMLString(place: place)
@@ -406,53 +407,71 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
         self.present(importFileMenu, animated: true, completion: nil)
         
     }
-   
-/*
+    
+    /*
      Included for demonstration of file picker
      
-    func saveTrackDataAlt () {
-        
-        let documentPicker = UIDocumentPickerViewController(documentTypes: ["public.text"],  in: .open)
-        documentPicker.delegate = self
-        documentPicker.shouldShowFileExtensions = true
-        documentPicker.allowsMultipleSelection = true
-        present(documentPicker, animated: true) {
-            print("done presenting")
-        }
-    }
-    
-    
-    func documentPicker(_ controller: UIDocumentPickerViewController,
-                        didPickDocumentsAt urls: [URL]) {
-        
-        let dataString : String = prepareWriteString()
-        
-        let url = urls[0]
-        
-        let directory = url.deletingLastPathComponent()        
-        let filename = url.lastPathComponent
-        print (filename)
-        // let dataString = "Again"
-        do {
-            try dataString.write(to: url, atomically: true, encoding: .utf8)
-            let input = try String(contentsOf: url)
-            print(input)
-        } catch {
-            print(error.localizedDescription)
-        }
-    }
- */
+     func saveTrackDataAlt () {
+     
+     let documentPicker = UIDocumentPickerViewController(documentTypes: ["public.text"],  in: .open)
+     documentPicker.delegate = self
+     documentPicker.shouldShowFileExtensions = true
+     documentPicker.allowsMultipleSelection = true
+     present(documentPicker, animated: true) {
+     print("done presenting")
+     }
+     }
+     
+     
+     func documentPicker(_ controller: UIDocumentPickerViewController,
+     didPickDocumentsAt urls: [URL]) {
+     
+     let dataString : String = prepareWriteString()
+     
+     let url = urls[0]
+     
+     let directory = url.deletingLastPathComponent()
+     let filename = url.lastPathComponent
+     print (filename)
+     // let dataString = "Again"
+     do {
+     try dataString.write(to: url, atomically: true, encoding: .utf8)
+     let input = try String(contentsOf: url)
+     print(input)
+     } catch {
+     print(error.localizedDescription)
+     }
+     }
+     */
     
     func saveTrackData() {
+        fileFormat = defaults.integer(forKey: "fileFormat")
+        var dataString: String!
+        // Get data - depending on file format
+        switch fileFormat {
+        case 0:
+            // CSV
+            dataString  = prepareCSVString()
+            dataString += ".csv"
+        case 1:
+            // KML
+            dataString = "KML"
+            dataString += ".kml"
+        case 2:
+            dataString  = "GPX"
+            dataString += ".gpx"
+        default:
+            dataString  = ""
+            dataString += ".txt"
+        }
         
-        let dataString : String = prepareKMLString()
         
         let timestamp = Date()
         let formatter = DateFormatter()
         formatter.dateFormat = "_dd_MM_yy_HH_mm"
         print (fileName!)
         fileName += formatter.string(from: timestamp)
-        fileName = fileName + ".csv"
+        
         let url = self.getDocumentsDirectory().appendingPathComponent(fileName)
         
         do {

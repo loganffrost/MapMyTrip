@@ -113,14 +113,14 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="TracksTableViewCell" id="TZf-Y4-TCC" customClass="TracksTableViewCell" customModule="MapMyTrip">
-                                <rect key="frame" x="0.0" y="28" width="375" height="43"/>
+                                <rect key="frame" x="0.0" y="28" width="375" height="43.5"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="TZf-Y4-TCC" id="rO2-VW-0cK">
-                                    <rect key="frame" x="0.0" y="0.0" width="375" height="43"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="filenameLabel" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zTj-13-zWz">
-                                            <rect key="frame" x="16" y="11" width="208" height="21"/>
+                                            <rect key="frame" x="16" y="11" width="208" height="21.5"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
@@ -251,9 +251,12 @@
                                 <rect key="frame" x="217" y="203" width="140" height="30"/>
                                 <segments>
                                     <segment title="CSV"/>
-                                    <segment title="XML"/>
+                                    <segment title="KML"/>
                                     <segment title="GPX"/>
                                 </segments>
+                                <connections>
+                                    <action selector="fileFormatChanged:forEvent:" destination="VzS-PX-YTl" eventType="valueChanged" id="YD4-KZ-AhV"/>
+                                </connections>
                             </segmentedControl>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Data output format" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Rrl-WN-Ecr">
                                 <rect key="frame" x="16" y="207" width="146" height="21"/>
@@ -297,6 +300,7 @@
                         <outlet property="allowBackgroundLocationLabel" destination="Gc9-Jz-7Bp" id="6WT-SA-h2Z"/>
                         <outlet property="backgroundLocationSwitch" destination="3Sh-v6-gnn" id="sLp-5d-bUh"/>
                         <outlet property="destroySwitch" destination="LPd-3g-K7e" id="BUP-QI-3Ln"/>
+                        <outlet property="fileFormatSetting" destination="XBN-MN-Cm1" id="Lfa-AZ-5lr"/>
                         <outlet property="modeSelect" destination="TLD-xu-CYM" id="Uu3-6w-RhF"/>
                     </connections>
                 </viewController>

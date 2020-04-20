@@ -19,6 +19,7 @@ class SettingsViewController: UIViewController {
     @IBOutlet weak var destroySwitch: UISwitch!
     @IBOutlet weak var allowBackgroundLocationLabel: UILabel!
     @IBOutlet weak var backgroundLocationSwitch: UISwitch!
+    @IBOutlet weak var fileFormatSetting: UISegmentedControl!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,6 +28,7 @@ class SettingsViewController: UIViewController {
         modeSelect.selectedSegmentIndex = defaults.integer(forKey: "travelMode")
         destroySwitch.isOn = defaults.bool(forKey: "destroyOnSave")
         backgroundLocationSwitch.isOn = defaults.bool(forKey: "bgLocation")
+        fileFormatSetting.selectedSegmentIndex = defaults.integer(forKey: "fileFormat")
 
         // Do any additional setup after loading the view.
     }
@@ -49,6 +51,11 @@ class SettingsViewController: UIViewController {
         mainViewController?.onReturnFromSettings(mode: mode)
     }
     
+    @IBAction func fileFormatChanged(_ sender: UISegmentedControl, forEvent event: UIEvent) {
+        let fileFormat = fileFormatSetting.selectedSegmentIndex
+        defaults.set(fileFormat, forKey: ("fileFormat"))
+        
+    }
     /*
     // MARK: - Navigation
 
