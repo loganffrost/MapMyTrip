@@ -45,8 +45,6 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
     var newLocation : CLLocation!
     var fileName: String!
     
-    // var places: [NSManagedObject] = []
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
@@ -81,18 +79,18 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
     }
     
     func getFileManager () {
-//        // Create a document picker for directories.
-//        let documentPicker =
-//            UIDocumentPickerViewController(documentTypes: [kUTTypeFolder as String],
-//                                           in: .open)
-//
-//        documentPicker.delegate = self
-//
-//        // Set the initial directory.
-//        documentPicker.directoryURL = startingDirectory
-//
-//        // Present the document picker.
-//        present(documentPicker, animated: true, completion: nil)
+        //        // Create a document picker for directories.
+        //        let documentPicker =
+        //            UIDocumentPickerViewController(documentTypes: [kUTTypeFolder as String],
+        //                                           in: .open)
+        //
+        //        documentPicker.delegate = self
+        //
+        //        // Set the initial directory.
+        //        documentPicker.directoryURL = startingDirectory
+        //
+        //        // Present the document picker.
+        //        present(documentPicker, animated: true, completion: nil)
     }
     
     // Called when CLLocationManager detects a change in location
@@ -160,7 +158,7 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
     
     func getDocumentsDirectory() -> URL {
         let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
-            // let public = FileManager
+        // let public = FileManager
         return paths[0]
     }
     
@@ -259,7 +257,7 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
         let renderer = MKPolylineRenderer(overlay: overlay)
         renderer.strokeColor = UIColor.blue
         renderer.lineWidth = 5
-       // renderer.lineDashPattern = .some([4, 16, 16])
+        // renderer.lineDashPattern = .some([4, 16, 16])
         return renderer
     }
     
@@ -339,29 +337,32 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
     
     func readFromPublic () {
         
-            // open a document picker, select a file
+        // open a document picker, select a file
         // documentTypes see - https://developer.apple.com/library/archive/documentation/Miscellaneous/Reference/UTIRef/Articles/System-DeclaredUniformTypeIdentifiers.html#//apple_ref/doc/uid/TP40009259-SW1
         
-            let importFileMenu = UIDocumentPickerViewController(documentTypes: ["public.text"],
-                                                                in: UIDocumentPickerMode.import)
-            importFileMenu.delegate = self
-            if #available(iOS 13.0, *) {
-                print("File iOS 13+")
-                importFileMenu.directoryURL = FileManager.default.containerURL(
-                    forSecurityApplicationGroupIdentifier: "group.com.alexsykes.MapMyTrip")!
-            } else {
-                // Fallback on earlier versions
-                print("File iOS <=12")
-            }
-            importFileMenu.modalPresentationStyle = .formSheet
-
-            self.present(importFileMenu, animated: true, completion: nil)
+        let importFileMenu = UIDocumentPickerViewController(documentTypes: ["public.text"],
+                                                            in: UIDocumentPickerMode.import)
+        importFileMenu.delegate = self
+        if #available(iOS 13.0, *) {
+            print("File iOS 13+")
+            importFileMenu.directoryURL = FileManager.default.containerURL(
+                forSecurityApplicationGroupIdentifier: "group.com.alexsykes.MapMyTrip")!
+        } else {
+            // Fallback on earlier versions
+            print("File iOS <=12")
+        }
+        importFileMenu.modalPresentationStyle = .formSheet
+        
+        self.present(importFileMenu, animated: true, completion: nil)
         
     }
-    
-    func saveTrackData () {
+   
+/*
+     Included for demonstration of file picker
+     
+    func saveTrackDataAlt () {
         
-    let documentPicker = UIDocumentPickerViewController(documentTypes: ["public.text"],  in: .open)
+        let documentPicker = UIDocumentPickerViewController(documentTypes: ["public.text"],  in: .open)
         documentPicker.delegate = self
         documentPicker.shouldShowFileExtensions = true
         documentPicker.allowsMultipleSelection = true
@@ -377,7 +378,7 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
         let dataString : String = prepareWriteString()
         
         let url = urls[0]
-
+        
         let directory = url.deletingLastPathComponent()        
         let filename = url.lastPathComponent
         print (filename)
@@ -389,16 +390,18 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
         } catch {
             print(error.localizedDescription)
         }
-        
     }
+ */
     
-    func saveTrackData1() {
+    func saveTrackData() {
         
         let dataString : String = prepareWriteString()
         
-//        let timestamp = Date()
-//        let formatter = DateFormatter()
-//        formatter.dateFormat = "dd_MM_yy_HH_mm"
+        let timestamp = Date()
+        let formatter = DateFormatter()
+        formatter.dateFormat = "_dd_MM_yy_HH_mm"
+        print (fileName!)
+        fileName += formatter.string(from: timestamp)
         fileName = fileName + ".csv"
         let url = self.getDocumentsDirectory().appendingPathComponent(fileName)
         
@@ -468,7 +471,7 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
         saveButton.isEnabled = false
         isRecording = true
         statusLabel.text = "Recording"
-    
+        
         // Check that threshold is up to date
         self.recordingThreshold = self.recordingThresholds[mode]
     }
