@@ -162,22 +162,22 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
         return paths[0]
     }
     
-    // Prepare visitedLocations for saving
-    func prepareWriteString() -> String{
+    // Prepare visitedLocations for saving as CSV
+    func prepareCSVString() -> String{
         // Intiialise data string
         var outputString = ""
         var outputData: [String] = []
         for place in visitedLocations {
             
-            let placeString = makeString(place: place)
+            let placeString = makeCSVString(place: place)
             outputData.append(placeString)
         }
         outputString = outputData.joined(separator: "\n")
         return outputString
     }
     
-    // Make String from a place
-    func makeString(place :CLLocation) -> String{
+    // Make CSV String from a place
+    func makeCSVString(place :CLLocation) -> String{
         // Sart with an empty string
         // and a CLocation
         let latitude = place.coordinate.latitude
@@ -205,6 +205,57 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
         dataArray.append(vaccStr)
         dataArray.append(eleStr)
         dataArray.append(timStr)
+        
+        let dataString = dataArray.joined(separator: ",")
+        return dataString
+    }
+    
+    
+    
+    // Prepare visitedLocations for saving as KML
+    func prepareKMLString() -> String{
+        // Intiialise data string
+        var outputData: [String] = []
+        
+        // Intiialise data string
+        // Add leading data
+        var outputString = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+        outputString += "<kml xmlns=\"http://www.opengis.net/kml/2.2\">\n<Document>\n<name>"
+        outputString += fileName
+        outputString += "</name>\n<description>"
+        outputString += description
+
+        for place in visitedLocations {
+            
+            let placeString = makeKMLString(place: place)
+            outputData.append(placeString)
+        }
+        outputString = outputData.joined(separator: "\n")
+        
+        // Add trailing data
+        
+        
+        return outputString
+    }
+    
+    
+    // Make KML String from a place
+    func makeKMLString(place :CLLocation) -> String{
+        // Sart with an empty string
+        // and a CLocation
+        let latitude = place.coordinate.latitude
+        let longitude = place.coordinate.longitude
+        let elevation = place.altitude
+        
+        // Convert to String data
+        let latStr = "\(latitude)"
+        let longStr = "\(longitude)"
+        let eleStr = "\(elevation)"
+        
+        var  dataArray: [String] = []
+        dataArray.append(latStr)
+        dataArray.append(longStr)
+        dataArray.append(eleStr)
         
         let dataString = dataArray.joined(separator: ",")
         return dataString
@@ -246,7 +297,6 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
     
     func setupButtons() {
         pauseButton.isEnabled = false
-        printButton.isEnabled = true
         recordButton.isEnabled = true
         stopButton.isEnabled = false
         saveButton.isEnabled = false
@@ -395,7 +445,7 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
     
     func saveTrackData() {
         
-        let dataString : String = prepareWriteString()
+        let dataString : String = prepareKMLString()
         
         let timestamp = Date()
         let formatter = DateFormatter()

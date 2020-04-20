@@ -41,12 +41,6 @@
                                             <action selector="startRecording:" destination="BYZ-38-t0r" id="yIG-RZ-BhW"/>
                                         </connections>
                                     </barButtonItem>
-                                    <barButtonItem title="PrintButton" image="printer.fill" catalog="system" id="Dt5-X3-6uQ">
-                                        <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <connections>
-                                            <action selector="printLocations:" destination="BYZ-38-t0r" id="Hpf-7W-nKS"/>
-                                        </connections>
-                                    </barButtonItem>
                                     <barButtonItem title="Save Button" image="save" id="URc-xM-zMl">
                                         <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <connections>
@@ -99,7 +93,6 @@
                     <connections>
                         <outlet property="mapView" destination="SHd-K3-tKJ" id="AcJ-h8-9pd"/>
                         <outlet property="pauseButton" destination="kbH-AW-btU" id="0ed-MG-rR5"/>
-                        <outlet property="printButton" destination="Dt5-X3-6uQ" id="2ie-h8-a4E"/>
                         <outlet property="recordButton" destination="eyc-As-tBN" id="joH-pr-8CQ"/>
                         <outlet property="saveButton" destination="URc-xM-zMl" id="XmU-5o-fXu"/>
                         <outlet property="statusLabel" destination="Hwj-P6-fIq" id="TDg-T7-vaC"/>
@@ -120,14 +113,14 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="TracksTableViewCell" id="TZf-Y4-TCC" customClass="TracksTableViewCell" customModule="MapMyTrip">
-                                <rect key="frame" x="0.0" y="28" width="375" height="43.5"/>
+                                <rect key="frame" x="0.0" y="28" width="375" height="43"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="TZf-Y4-TCC" id="rO2-VW-0cK">
-                                    <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="43"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="filenameLabel" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zTj-13-zWz">
-                                            <rect key="frame" x="16" y="11" width="208" height="21.5"/>
+                                            <rect key="frame" x="16" y="11" width="208" height="21"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
@@ -209,13 +202,13 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Mode" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="imH-JP-6xm">
-                                <rect key="frame" x="16" y="57" width="343" height="21"/>
+                                <rect key="frame" x="16" y="57" width="341" height="21"/>
                                 <fontDescription key="fontDescription" type="system" weight="medium" pointSize="18"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" apportionsSegmentWidthsByContent="YES" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="TLD-xu-CYM">
-                                <rect key="frame" x="16" y="86" width="343" height="32"/>
+                                <rect key="frame" x="16" y="86" width="341" height="32"/>
                                 <segments>
                                     <segment title="" image="walk"/>
                                     <segment title="" image="run"/>
@@ -243,13 +236,30 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="3Sh-v6-gnn">
-                                <rect key="frame" x="306" y="164" width="51" height="31"/>
+                                <rect key="frame" x="308" y="164" width="51" height="31"/>
                                 <connections>
                                     <action selector="backgroundLocationSwitch:" destination="VzS-PX-YTl" eventType="valueChanged" id="b8H-y8-GgP"/>
                                 </connections>
                             </switch>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Allow background location service" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Gc9-Jz-7Bp">
-                                <rect key="frame" x="16" y="169" width="278" height="20.5"/>
+                                <rect key="frame" x="16" y="169" width="276" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="XBN-MN-Cm1">
+                                <rect key="frame" x="217" y="203" width="140" height="30"/>
+                                <segments>
+                                    <segment title="CSV"/>
+                                    <segment title="XML"/>
+                                    <segment title="GPX"/>
+                                </segments>
+                            </segmentedControl>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Data output format" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Rrl-WN-Ecr">
+                                <rect key="frame" x="16" y="207" width="146" height="21"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="21" id="Mof-Wf-tnp"/>
+                                </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -257,22 +267,28 @@
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
-                            <constraint firstItem="imH-JP-6xm" firstAttribute="trailing" secondItem="TLD-xu-CYM" secondAttribute="trailing" id="43j-m0-7pq"/>
-                            <constraint firstItem="imH-JP-6xm" firstAttribute="top" secondItem="TQG-og-FvK" secondAttribute="top" constant="13" id="4GT-Ec-nLK"/>
-                            <constraint firstItem="Gc9-Jz-7Bp" firstAttribute="top" secondItem="Uk1-SV-fDt" secondAttribute="bottom" constant="18" id="5nf-3h-GWv"/>
-                            <constraint firstItem="LPd-3g-K7e" firstAttribute="leading" secondItem="Uk1-SV-fDt" secondAttribute="trailing" constant="14" id="6da-zw-ry9"/>
-                            <constraint firstItem="TLD-xu-CYM" firstAttribute="top" secondItem="imH-JP-6xm" secondAttribute="bottom" constant="8" id="JRv-P1-Vz9"/>
-                            <constraint firstItem="Gc9-Jz-7Bp" firstAttribute="leading" secondItem="TQG-og-FvK" secondAttribute="leading" constant="16" id="LY2-4g-eNF"/>
-                            <constraint firstItem="Uk1-SV-fDt" firstAttribute="centerY" secondItem="LPd-3g-K7e" secondAttribute="centerY" id="Lbf-p8-qVW"/>
-                            <constraint firstItem="3Sh-v6-gnn" firstAttribute="top" secondItem="LPd-3g-K7e" secondAttribute="bottom" constant="8" id="Q8S-M8-ub6"/>
-                            <constraint firstItem="imH-JP-6xm" firstAttribute="leading" secondItem="TLD-xu-CYM" secondAttribute="leading" id="TZd-LG-57m"/>
-                            <constraint firstItem="TQG-og-FvK" firstAttribute="trailing" secondItem="LPd-3g-K7e" secondAttribute="trailing" constant="18" id="UpZ-8T-AKL"/>
-                            <constraint firstItem="3Sh-v6-gnn" firstAttribute="leading" secondItem="Gc9-Jz-7Bp" secondAttribute="trailing" constant="12" id="V3W-TE-QIQ"/>
-                            <constraint firstItem="TQG-og-FvK" firstAttribute="trailing" secondItem="3Sh-v6-gnn" secondAttribute="trailing" constant="20" id="Yfm-QH-V2d"/>
-                            <constraint firstItem="imH-JP-6xm" firstAttribute="trailing" secondItem="qX0-6g-Z0v" secondAttribute="trailingMargin" id="bHu-4M-AvQ"/>
-                            <constraint firstItem="Uk1-SV-fDt" firstAttribute="leading" secondItem="TLD-xu-CYM" secondAttribute="leading" id="dhK-pb-K3V"/>
-                            <constraint firstItem="imH-JP-6xm" firstAttribute="leading" secondItem="qX0-6g-Z0v" secondAttribute="leadingMargin" id="tgQ-4a-bGd"/>
-                            <constraint firstItem="LPd-3g-K7e" firstAttribute="top" secondItem="TLD-xu-CYM" secondAttribute="bottom" constant="8" id="xws-oN-UW3"/>
+                            <constraint firstItem="LPd-3g-K7e" firstAttribute="leading" secondItem="3Sh-v6-gnn" secondAttribute="leading" id="26H-Pc-Tso"/>
+                            <constraint firstItem="TLD-xu-CYM" firstAttribute="top" secondItem="imH-JP-6xm" secondAttribute="bottom" constant="8" id="5dD-zA-6LW"/>
+                            <constraint firstItem="Rrl-WN-Ecr" firstAttribute="top" secondItem="Gc9-Jz-7Bp" secondAttribute="bottom" constant="17" id="6qf-eH-ekW"/>
+                            <constraint firstItem="XBN-MN-Cm1" firstAttribute="top" secondItem="3Sh-v6-gnn" secondAttribute="bottom" constant="8" id="A4E-wf-IuB"/>
+                            <constraint firstItem="imH-JP-6xm" firstAttribute="leading" secondItem="TLD-xu-CYM" secondAttribute="leading" id="Dmg-3b-ezo"/>
+                            <constraint firstItem="imH-JP-6xm" firstAttribute="top" secondItem="TQG-og-FvK" secondAttribute="top" constant="13" id="GLw-2G-xZy"/>
+                            <constraint firstItem="Uk1-SV-fDt" firstAttribute="leading" secondItem="Gc9-Jz-7Bp" secondAttribute="leading" id="HWJ-Jz-eN4"/>
+                            <constraint firstItem="TLD-xu-CYM" firstAttribute="trailing" secondItem="LPd-3g-K7e" secondAttribute="trailing" id="Hji-cv-KCg"/>
+                            <constraint firstItem="3Sh-v6-gnn" firstAttribute="top" secondItem="LPd-3g-K7e" secondAttribute="bottom" constant="8" id="LJk-ad-R6l"/>
+                            <constraint firstItem="TLD-xu-CYM" firstAttribute="leading" secondItem="Uk1-SV-fDt" secondAttribute="leading" id="N2U-Sa-ZRQ"/>
+                            <constraint firstItem="XBN-MN-Cm1" firstAttribute="top" secondItem="Gc9-Jz-7Bp" secondAttribute="bottom" constant="13" id="PDy-RV-IN7"/>
+                            <constraint firstItem="imH-JP-6xm" firstAttribute="leading" secondItem="qX0-6g-Z0v" secondAttribute="leadingMargin" id="PwK-A0-92Z"/>
+                            <constraint firstItem="3Sh-v6-gnn" firstAttribute="leading" secondItem="Gc9-Jz-7Bp" secondAttribute="trailing" constant="16" id="Uzs-IT-d10"/>
+                            <constraint firstItem="Rrl-WN-Ecr" firstAttribute="centerY" secondItem="XBN-MN-Cm1" secondAttribute="centerY" id="YCH-rF-ilG"/>
+                            <constraint firstItem="LPd-3g-K7e" firstAttribute="leading" secondItem="Uk1-SV-fDt" secondAttribute="trailing" constant="14" id="c3H-2i-vhY"/>
+                            <constraint firstItem="Gc9-Jz-7Bp" firstAttribute="centerY" secondItem="3Sh-v6-gnn" secondAttribute="centerY" id="ch9-ao-0fK"/>
+                            <constraint firstItem="LPd-3g-K7e" firstAttribute="top" secondItem="TLD-xu-CYM" secondAttribute="bottom" constant="8" id="pg5-KC-uBs"/>
+                            <constraint firstItem="TQG-og-FvK" firstAttribute="trailing" secondItem="imH-JP-6xm" secondAttribute="trailing" constant="18" id="po1-Gk-SuX"/>
+                            <constraint firstItem="Gc9-Jz-7Bp" firstAttribute="leading" secondItem="Rrl-WN-Ecr" secondAttribute="leading" id="px8-lT-tOV"/>
+                            <constraint firstItem="3Sh-v6-gnn" firstAttribute="trailing" secondItem="XBN-MN-Cm1" secondAttribute="trailing" id="wmS-u3-Jar"/>
+                            <constraint firstItem="imH-JP-6xm" firstAttribute="trailing" secondItem="TLD-xu-CYM" secondAttribute="trailing" id="xlg-bY-2jS"/>
+                            <constraint firstItem="Uk1-SV-fDt" firstAttribute="centerY" secondItem="LPd-3g-K7e" secondAttribute="centerY" id="yNG-jf-Te2"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="TQG-og-FvK"/>
                     </view>
@@ -280,7 +296,6 @@
                     <connections>
                         <outlet property="allowBackgroundLocationLabel" destination="Gc9-Jz-7Bp" id="6WT-SA-h2Z"/>
                         <outlet property="backgroundLocationSwitch" destination="3Sh-v6-gnn" id="sLp-5d-bUh"/>
-                        <outlet property="destroyOptionLabel" destination="Lbf-p8-qVW" id="IxQ-uS-JYQ"/>
                         <outlet property="destroySwitch" destination="LPd-3g-K7e" id="BUP-QI-3Ln"/>
                         <outlet property="modeSelect" destination="TLD-xu-CYM" id="Uu3-6w-RhF"/>
                     </connections>
@@ -317,7 +332,6 @@
         <image name="list.dash" catalog="system" width="128" height="85"/>
         <image name="motorbike" width="25" height="25"/>
         <image name="pause" width="25" height="25"/>
-        <image name="printer.fill" catalog="system" width="128" height="111"/>
         <image name="run" width="25" height="25"/>
         <image name="save" width="25" height="25"/>
         <image name="settings" width="25" height="25"/>
