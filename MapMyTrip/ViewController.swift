@@ -223,7 +223,7 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
         outputString += "<kml xmlns=\"http://www.opengis.net/kml/2.2\">\n<Document>\n<name>"
         outputString += fileName
         outputString += "</name>\n<description>"
-        outputString += description
+        outputString += "Description"
         outputString += "</description>\n<Style id=\"yellowLineGreenPoly\"><LineStyle><color>7f00ffff</color><width>4</width></LineStyle></Style><Placemark><name>Name of line</name><description>Description of line</description><styleUrl>#yellowLineGreenPoly</styleUrl><LineString><coordinates>"
         
         for place in visitedLocations {
@@ -235,7 +235,7 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
         
         // Add trailing data
         outputString += "</coordinates></LineString></Placemark></Document></kml>"
-        
+        print (outputString)
         return outputString
     }
     
@@ -254,8 +254,8 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
         let eleStr = "\(elevation)"
         
         var  dataArray: [String] = []
-        dataArray.append(latStr)
         dataArray.append(longStr)
+        dataArray.append(latStr)
         dataArray.append(eleStr)
         
         let dataString = dataArray.joined(separator: ",")
