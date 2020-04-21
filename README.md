@@ -12,3 +12,7 @@ iOS app for use in mapping
   * always save CSV / DATA copy of track
 * File operations
   * Filter files visible on track listing
+
+### CHANGELOG
+* Data processing
+  * Update timestamp addition in GPX file - resolved in commit #54
