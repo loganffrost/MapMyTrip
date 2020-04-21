@@ -263,52 +263,57 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
     }
     
     // Prepare visitedLocations for saving as KML
-       func prepareGPXString() -> String{
-           // Intiialise data string
-           var outputData: [String] = []
-           
-           // Intiialise data string
-           // Add leading data
-           var outputString = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
-           outputString += "<kml xmlns=\"http://www.opengis.net/kml/2.2\">\n<Document>\n<name>"
-           outputString += fileName
-           outputString += "</name>\n<description>"
-           outputString += description
-           
-           for place in visitedLocations {
-               
-               let placeString = makeGPXString(place: place)
-               outputData.append(placeString)
-           }
-           outputString = outputData.joined(separator: "\n")
-           
-           // Add trailing data
-           
-           
-           return outputString
-       }
-       
-       // Make GPX String from a place
-       func makeGPXString(place :CLLocation) -> String{
-           // Sart with an empty string
-           // and a CLocation
-           let latitude = place.coordinate.latitude
-           let longitude = place.coordinate.longitude
-           let elevation = place.altitude
-           
-           // Convert to String data
-           let latStr = "\(latitude)"
-           let longStr = "\(longitude)"
-           let eleStr = "\(elevation)"
-           
-           var  dataArray: [String] = []
-           dataArray.append(latStr)
-           dataArray.append(longStr)
-           dataArray.append(eleStr)
-           
-           let dataString = dataArray.joined(separator: ",")
-           return dataString
-       }
+    func prepareGPXString() -> String{
+        // Intiialise data string
+        var outputData: [String] = []
+        let now = Date()
+        //    let formatter = DateFormatter()
+        //     formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
+        
+        let formatter = ISO8601DateFormatter()
+        let timestamp = formatter.string(from: now)
+        
+        //let timestamp = String(now)
+        
+        // Intiialise data string
+        // Add leading data
+        var outputString = "<?xmlversion=\"1.0\"encoding=\"UTF-8\"standalone=\"no\"?>"
+        outputString += "\n\n<gpx xmlns=\"http://www.topografix.com/GPX/1/1\"xmlns:gpxx=\"http://www.garmin.com/xmlschemas/GpxExtensions/v3\"xmlns:gpxtpx=\"http://www.garmin.com/xmlschemas/TrackPointExtension/v1\"creator=\"Oregon400t\"version=\"1.1\"xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"xsi:schemaLocation=\"http://www.topografix.com/GPX/1/1http://www.topografix.com/GPX/1/1/gpx.xsdhttp://www.garmin.com/xmlschemas/GpxExtensions/v3http://www.garmin.com/xmlschemas/GpxExtensionsv3.xsdhttp://www.garmin.com/xmlschemas/TrackPointExtension/v1http://www.garmin.com/xmlschemas/TrackPointExtensionv1.xsd\">"
+        outputString += "\n<metadata>\n\t<link href=\"http://www.alexsykes.com\">\n\t<text>Map My Trip</text>\n\t</link>\n<time>"
+        outputString += timestamp
+        outputString += "</time>\n</metadata>\n<trk>\n<name>Track name</name>\n<trkseg>\n"
+        
+        for place in visitedLocations {
+            
+            let placeString = makeGPXString(place: place)
+            outputData.append(placeString)
+        }
+        outputString += outputData.joined(separator: "\n")
+        outputString += "\n</trkseg>\n</trk>\n</gpx>"
+        
+        // Print to display
+        print (outputString)
+
+        return outputString
+    }
+    
+    // Make GPX String from a place
+    func makeGPXString(place :CLLocation) -> String{
+        // Sart with an empty string
+        // and a CLocation
+        let latitude = place.coordinate.latitude
+        let longitude = place.coordinate.longitude
+        let elevation = place.altitude
+        let time = place.timestamp
+        
+//        // Convert to String data
+//        let latStr = "\(latitude)"
+//        let longStr = "\(longitude)"
+//        let eleStr = "\(elevation)"
+        
+let dataString = "<trkpt lat=\"\(latitude)\" lon=\"\(longitude)\">\n\t<ele>\(elevation)</ele>\n\t<time>2009-10-17T18:37:26Z</time>\n</trkpt>"
+        return dataString
+    }
     
     
     
@@ -507,7 +512,7 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
             fileExtension  = ".kml"
         case 2:
             dataString  = prepareGPXString()
-            fileExtension  = ".txt"
+            fileExtension  = ".gpx"
         default:
             dataString  = ""
             fileExtension  = ".txt"
