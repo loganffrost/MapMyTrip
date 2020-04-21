@@ -278,7 +278,7 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
         // Intiialise data string
         // Add leading data
         var outputString = "<?xmlversion=\"1.0\"encoding=\"UTF-8\"standalone=\"no\"?>"
-        outputString += "\n\n<gpx xmlns=\"http://www.topografix.com/GPX/1/1\"xmlns:gpxx=\"http://www.garmin.com/xmlschemas/GpxExtensions/v3\"xmlns:gpxtpx=\"http://www.garmin.com/xmlschemas/TrackPointExtension/v1\"creator=\"Oregon400t\"version=\"1.1\"xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"xsi:schemaLocation=\"http://www.topografix.com/GPX/1/1http://www.topografix.com/GPX/1/1/gpx.xsdhttp://www.garmin.com/xmlschemas/GpxExtensions/v3http://www.garmin.com/xmlschemas/GpxExtensionsv3.xsdhttp://www.garmin.com/xmlschemas/TrackPointExtension/v1http://www.garmin.com/xmlschemas/TrackPointExtensionv1.xsd\">"
+        outputString += "\n\n<gpx xmlns=\"http://www.topografix.com/GPX/1/1\" xmlns:gpxx=\"http://www.garmin.com/xmlschemas/GpxExtensions/v3\" xmlns:gpxtpx=\"http://www.garmin.com/xmlschemas/TrackPointExtension/v1\"creator=\"MapMyTrip\"version=\"1.1\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://www.topografix.com/GPX/1/1 http://www.topografix.com/GPX/1/1/gpx.xsd http://www.garmin.com/xmlschemas/GpxExtensions/v3 http://www.garmin.com/xmlschemas/GpxExtensionsv3.xsd http://www.garmin.com/xmlschemas/TrackPointExtension/v1 http://www.garmin.com/xmlschemas/TrackPointExtensionv1.xsd\">"
         outputString += "\n<metadata>\n\t<link href=\"http://www.alexsykes.com\">\n\t<text>Map My Trip</text>\n\t</link>\n<time>"
         outputString += timestamp
         outputString += "</time>\n</metadata>\n<trk>\n<name>Track name</name>\n<trkseg>\n"
@@ -292,7 +292,7 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
         outputString += "\n</trkseg>\n</trk>\n</gpx>"
         
         // Print to display
-        print (outputString)
+       // print (outputString)
 
         return outputString
     }
@@ -304,14 +304,13 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
         let latitude = place.coordinate.latitude
         let longitude = place.coordinate.longitude
         let elevation = place.altitude
+        
         let time = place.timestamp
+        let formatter = ISO8601DateFormatter()
+        let timestamp = formatter.string(from: time)
         
-//        // Convert to String data
-//        let latStr = "\(latitude)"
-//        let longStr = "\(longitude)"
-//        let eleStr = "\(elevation)"
         
-let dataString = "<trkpt lat=\"\(latitude)\" lon=\"\(longitude)\">\n\t<ele>\(elevation)</ele>\n\t<time>2009-10-17T18:37:26Z</time>\n</trkpt>"
+let dataString = "<trkpt lat=\"\(latitude)\" lon=\"\(longitude)\">\n\t<ele>\(elevation)</ele>\n\t<time>\(timestamp)</time>\n</trkpt>"
         return dataString
     }
     
