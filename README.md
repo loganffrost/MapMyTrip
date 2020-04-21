@@ -16,5 +16,5 @@ iOS app for use in mapping
 ### CHANGELOG
 * Data processing
   * resolved in commit #56
-   * Update timestamp addition in GPX file
-   * File filtering for TracksTableView
+     * Update timestamp addition in GPX file
+     * File filtering for TracksTableView
