@@ -116,10 +116,9 @@ class TrackDetailViewController: UIViewController, MKMapViewDelegate, CLLocation
         MKAnnotationView, calloutAccessoryControlTapped: UIControl) {
         //id = calloutAccessoryControlTapped.
          
-        let thing = annotationView.annotation!.title!!
-        let annotation = annotationView.annotation!
-       // let id :String = (annotation.title)!!
-        let index :Int = Int(thing)!
+        let title = annotationView.annotation!.title!!
+        
+        let index :Int = Int(title)!
         track.remove(at: index)
         visitedPoints.remove(at: index)
        
