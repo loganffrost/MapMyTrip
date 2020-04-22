@@ -15,5 +15,5 @@ iOS app for use in mapping
      * Update timestamp addition in GPX file
      * File filtering for TracksTableView
      
-* File operations - resolved 22_04
-  * Filter files visible on track listing
+* File operations 
+  * Filter files visible on track listing - resolved 22_04
