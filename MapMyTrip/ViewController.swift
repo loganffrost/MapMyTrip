@@ -72,6 +72,11 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
         getPermissions()
         setUpMap()
         setupUserTrackingButtonAndScaleView()
+        
+        // Screen dimming
+        // UIScreen.mainScreen.setBrightness(0.5)
+        UIApplication.shared.isIdleTimerDisabled = true
+        // UIScreen.
     }
     
     // MARK:  Events
