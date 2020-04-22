@@ -97,12 +97,6 @@ class TrackDetailViewController: UIViewController, MKMapViewDelegate, CLLocation
             let identifier = "marker"
             var view: MKMarkerAnnotationView
             
-            //        if let dequeuedView = mapView.dequeueReusableAnnotationView(
-            //                                 withIdentifier: identifier)
-            //                                     as? MKMarkerAnnotationView {
-            //            dequeuedView.annotation = annotation
-            //            view = dequeuedView
-            //        } else {
             view =
                 MKMarkerAnnotationView(annotation: annotation,
                                        reuseIdentifier: identifier)
@@ -121,19 +115,23 @@ class TrackDetailViewController: UIViewController, MKMapViewDelegate, CLLocation
     func mapView(_: MKMapView, annotationView:
         MKAnnotationView, calloutAccessoryControlTapped: UIControl) {
         //id = calloutAccessoryControlTapped.
-        mapView.removeOverlay(polyline)
-        let annotation = annotationView.annotation
-        let id :String = (annotation?.title)!!
-        let index :Int = Int(id)!
+         
+        let thing = annotationView.annotation!.title!!
+        let annotation = annotationView.annotation!
+       // let id :String = (annotation.title)!!
+        let index :Int = Int(thing)!
         track.remove(at: index)
         visitedPoints.remove(at: index)
        
+        // Remove existing polyline
+        self.mapView.removeOverlay(polyline)
+        
+        // Remove existing annotations
         self.mapView.removeAnnotations(self.mapView.annotations)
   //      self.mapView.removeAnnotation(annotationView)
         plotPoints()
         plotCurrentTrack()
         mapView.addAnnotations(visitedPoints)
-        print("Plotted")
     }
     
     
