@@ -35,9 +35,9 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
     var transportMode: Int!
     var fileFormat: Int!
     var defaults : UserDefaults!
-    var recordingThresholds: [Int] = [1,5,10,25,25,50,100,100]
+    var recordingThresholds: [Int] = [2,5,10,25,25,50,100,100]
     var recordingThreshold: Int!
-    var mode: Int!
+    var travelMode: Int!
     var destroyOnSave: Bool!
     var bgLocation: Bool!
     var visitedLocations: [CLLocation]!
@@ -63,10 +63,13 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
         
         // Get user defaults
         defaults = UserDefaults.standard
-        mode = defaults.integer(forKey:"travelMode")
+        travelMode = defaults.integer(forKey:"travelMode")
+        if travelMode == nil {
+            travelMode = 3
+        }
         destroyOnSave = defaults.bool(forKey: "destroyOnSave")
         fileFormat = defaults.integer(forKey: "fileFormat")
-        recordingThreshold = recordingThresholds[mode]
+        recordingThreshold = recordingThresholds[travelMode]
         
         setupButtons()
         getPermissions()
@@ -84,22 +87,7 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
     func mapViewDidFinishLoadingMap(_ mapView: MKMapView) {
         plotCurrentTrack()
     }
-    
-    func getFileManager () {
-        //        // Create a document picker for directories.
-        //        let documentPicker =
-        //            UIDocumentPickerViewController(documentTypes: [kUTTypeFolder as String],
-        //                                           in: .open)
-        //
-        //        documentPicker.delegate = self
-        //
-        //        // Set the initial directory.
-        //        documentPicker.directoryURL = startingDirectory
-        //
-        //        // Present the document picker.
-        //        present(documentPicker, animated: true, completion: nil)
-    }
-    
+
     // Called when CLLocationManager detects a change in location
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         // Check whether recording is triggered
@@ -157,8 +145,8 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
     // MARK: Event Overrides
     override func viewDidAppear(_ animated: Bool) {
         // Set up
-        mode = defaults.integer(forKey:"travelMode")
-        recordingThreshold = recordingThresholds[mode]
+        travelMode = defaults.integer(forKey:"travelMode")
+        recordingThreshold = recordingThresholds[travelMode]
     }
     
     // MARK: Functions
@@ -429,7 +417,7 @@ let dataString = "<trkpt lat=\"\(latitude)\" lon=\"\(longitude)\">\n\t<ele>\(ele
     }
     
     func onReturnFromSettings(mode: Int) {
-        self.mode = mode
+        self.travelMode = mode
         self.recordingThreshold = self.recordingThresholds[mode]
         // print("Threshold - \(recordingThreshold)")
     }
@@ -561,7 +549,7 @@ let dataString = "<trkpt lat=\"\(latitude)\" lon=\"\(longitude)\">\n\t<ele>\(ele
     }
     
     func writeOutputString (dataString: String, fileName: String, fileExtension: String) {
-        var longFileName = fileName + fileExtension
+        let longFileName = fileName + fileExtension
         
         let url = self.getDocumentsDirectory().appendingPathComponent(longFileName)
         
@@ -612,7 +600,7 @@ let dataString = "<trkpt lat=\"\(latitude)\" lon=\"\(longitude)\">\n\t<ele>\(ele
         statusLabel.text = "Recording"
         
         // Check that threshold is up to date
-        self.recordingThreshold = self.recordingThresholds[mode]
+        self.recordingThreshold = self.recordingThresholds[travelMode]
     }
     
     func addAnnotationsOnMap(locationToPoint : CLLocation) {
