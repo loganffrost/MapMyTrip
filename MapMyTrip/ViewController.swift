@@ -43,8 +43,8 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
     var visitedLocations: [CLLocation]!
     var previousLocation : CLLocation!
     var newLocation : CLLocation!
-    var fileName: String!
-    var fileExtension: String!
+    var shortFileName: String!
+    // var fileExtension: String!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -228,7 +228,7 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
         // Add leading data
         var outputString = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
         outputString += "<kml xmlns=\"http://www.opengis.net/kml/2.2\">\n<Document>\n<name>"
-        outputString += fileName
+        outputString += self.shortFileName
         outputString += "</name>\n<description>"
         outputString += "Description"
         outputString += "</description>\n<Style id=\"yellowLineGreenPoly\"><LineStyle><color>7f00ffff</color><width>4</width></LineStyle></Style><Placemark><name>Name of line</name><description>Description of line</description><styleUrl>#yellowLineGreenPoly</styleUrl><LineString><coordinates>"
@@ -394,9 +394,6 @@ let dataString = "<trkpt lat=\"\(latitude)\" lon=\"\(longitude)\">\n\t<ele>\(ele
                                      scale.centerYAnchor.constraint(equalTo: button.centerYAnchor)])
     }
     
-    
-    
-    
     // MARK: Actions
     // See - https://www.simplifiedios.net/ios-dialog-box-with-input/
     func showInputDialog() {
@@ -411,8 +408,8 @@ let dataString = "<trkpt lat=\"\(latitude)\" lon=\"\(longitude)\">\n\t<ele>\(ele
         
         //the confirm action taking the inputs
         let confirmAction = UIAlertAction(title: "OK", style: .default) { (_) in
-            self.fileName = alertController.textFields?[0].text
-            self.saveTrackData()
+            let fileName = alertController.textFields?[0].text
+            self.saveTrackData(fileName: fileName!)
         }
         
         //the cancel action doing nothing
@@ -503,14 +500,23 @@ let dataString = "<trkpt lat=\"\(latitude)\" lon=\"\(longitude)\">\n\t<ele>\(ele
      }
      */
     
-    func saveTrackData() {
+    func saveTrackData(fileName: String) {
+        // Get filename then add time stamp
+        self.shortFileName = fileName
+        var fileName = fileName
+        let timestamp = Date()
+        let formatter = DateFormatter()
+        formatter.dateFormat = "_dd_MM_yy_HH_mm"
+        let timeString = formatter.string(from: timestamp)
+        fileName += timeString
+        
         fileFormat = defaults.integer(forKey: "fileFormat")
         var dataString: String!
         
         // Always write CSV data
         dataString  = prepareCSVString()
-        fileExtension = ".csv"
-        writeOutputString(dataString: dataString)
+        var fileExtension = ".csv"
+        writeOutputString(dataString: dataString, fileName: fileName, fileExtension: fileExtension)
         
         // Get data - depending on file format
         switch fileFormat {
@@ -527,7 +533,8 @@ let dataString = "<trkpt lat=\"\(latitude)\" lon=\"\(longitude)\">\n\t<ele>\(ele
             fileExtension  = ".txt"
         }
         
-        writeOutputString(dataString: dataString)
+        // Create fileName for writing
+        writeOutputString(dataString: dataString, fileName: fileName, fileExtension: fileExtension)
 
         let destroy = defaults.bool(forKey: "destroyOnSave")
         if destroy {
@@ -552,15 +559,10 @@ let dataString = "<trkpt lat=\"\(latitude)\" lon=\"\(longitude)\">\n\t<ele>\(ele
         // ends here
     }
     
-    func writeOutputString (dataString: String) {
-        let timestamp = Date()
-        let formatter = DateFormatter()
-        formatter.dateFormat = "_dd_MM_yy_HH_mm"
-        print (fileName!)
-        fileName += formatter.string(from: timestamp)
-        fileName += fileExtension
+    func writeOutputString (dataString: String, fileName: String, fileExtension: String) {
+        var longFileName = fileName + fileExtension
         
-        let url = self.getDocumentsDirectory().appendingPathComponent(fileName)
+        let url = self.getDocumentsDirectory().appendingPathComponent(longFileName)
         
         do {
             try dataString.write(to: url, atomically: true, encoding: .utf8)
