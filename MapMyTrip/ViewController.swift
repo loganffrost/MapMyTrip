@@ -525,17 +525,18 @@ let dataString = "<trkpt lat=\"\(latitude)\" lon=\"\(longitude)\">\n\t<ele>\(ele
             // KML
             dataString = prepareKMLString()
             fileExtension  = ".kml"
+            // Create fileName for writing
+            writeOutputString(dataString: dataString, fileName: fileName, fileExtension: fileExtension)
         case 2:
             dataString  = prepareGPXString()
             fileExtension  = ".gpx"
+            // Create fileName for writing
+            writeOutputString(dataString: dataString, fileName: fileName, fileExtension: fileExtension)
         default:
-            dataString  = "default"
-            fileExtension  = ".txt"
+            print ("CSV file - not written")
+            // Do not write file
         }
         
-        // Create fileName for writing
-        writeOutputString(dataString: dataString, fileName: fileName, fileExtension: fileExtension)
-
         let destroy = defaults.bool(forKey: "destroyOnSave")
         if destroy {
             // New stuff starts here
