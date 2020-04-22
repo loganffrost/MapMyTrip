@@ -280,6 +280,7 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
         
         let formatter = ISO8601DateFormatter()
         let timestamp = formatter.string(from: now)
+        let trackName = self.shortFileName!
         
         //let timestamp = String(now)
         
@@ -289,10 +290,9 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
         outputString += "\n\n<gpx xmlns=\"http://www.topografix.com/GPX/1/1\" xmlns:gpxx=\"http://www.garmin.com/xmlschemas/GpxExtensions/v3\" xmlns:gpxtpx=\"http://www.garmin.com/xmlschemas/TrackPointExtension/v1\"creator=\"MapMyTrip\"version=\"1.1\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://www.topografix.com/GPX/1/1 http://www.topografix.com/GPX/1/1/gpx.xsd http://www.garmin.com/xmlschemas/GpxExtensions/v3 http://www.garmin.com/xmlschemas/GpxExtensionsv3.xsd http://www.garmin.com/xmlschemas/TrackPointExtension/v1 http://www.garmin.com/xmlschemas/TrackPointExtensionv1.xsd\">"
         outputString += "\n<metadata>\n\t<link href=\"http://www.alexsykes.com\">\n\t<text>Map My Trip</text>\n\t</link>\n<time>"
         outputString += timestamp
-        outputString += "</time>\n</metadata>\n<trk>\n<name>Track name</name>\n<trkseg>\n"
+        outputString += "</time>\n</metadata>\n<trk>\n<name>\(trackName)</name>\n<trkseg>\n"
         
         for place in visitedLocations {
-            
             let placeString = makeGPXString(place: place)
             outputData.append(placeString)
         }

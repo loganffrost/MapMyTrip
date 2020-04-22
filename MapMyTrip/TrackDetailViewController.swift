@@ -23,28 +23,44 @@ class TrackDetailViewController: UIViewController, MKMapViewDelegate, CLLocation
     var visitedPoints: [MKPointAnnotation]!
     var locationManager: CLLocationManager!
     var userLocation: CLLocation!
+    var polyline: MKPolyline!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        // Initial setup
         locationManager = CLLocationManager()
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
         locationManager.delegate = self
-        
         mapView.delegate = self
+        
+        // read data from file
         fileData = readFile(url: file!)
+        let fileName = file?.lastPathComponent
+        
+        // shortFileName is text name
+        let shortfilename = String(fileName![..<fileName!.firstIndex(of: ".")!])
+        
+        print (shortfilename)
         track = convertToCLLocation(fileData: fileData)
-         plotCurrentTrack()
-        // printTrackData()
+        
+        // Plot track and points
+        plotCurrentTrack()
         plotPoints()
-      //  centreMap(location: track[0])
+        
+        /* Following execution, the following are set
+         file - original URL
+         fileData - String array from file
+         track - CLLocation array for display
+         visitedPoints - array of Annotations
+         fileName - original filename
+         */
     }
     
     // Plots track loaded from visitedLocations array
     func plotCurrentTrack() {
         // if (visitedLocations.last as CLLocation?) != nil {
         var coordinates = track.map({(location: CLLocation) -> CLLocationCoordinate2D in return location.coordinate})
-        let polyline = MKPolyline(coordinates: &coordinates, count: coordinates.count)
+        polyline = MKPolyline(coordinates: &coordinates, count: coordinates.count)
         mapView.addOverlay(polyline)
         //  }
     }
@@ -52,7 +68,11 @@ class TrackDetailViewController: UIViewController, MKMapViewDelegate, CLLocation
     // Plot array of markers
     func plotPoints () {
         visitedPoints = []
+        let count = track.count
         var index = 0
+        print("Points in track: \(count)")
+    //    self.mapView.removeAnnotations(visitedPoints)
+        
         for point in track {
             let annotation = MKPointAnnotation()
             annotation.title = "\(index)"
@@ -64,7 +84,7 @@ class TrackDetailViewController: UIViewController, MKMapViewDelegate, CLLocation
             
             index += 1
             
-           // self.mapView.addAnnotation(annotation)
+            // self.mapView.addAnnotation(annotation)
             self.mapView.showAnnotations(visitedPoints, animated: true)
         }
     }
@@ -73,47 +93,56 @@ class TrackDetailViewController: UIViewController, MKMapViewDelegate, CLLocation
     // See - https://www.techotopia.com/index.php/Working_with_MapKit_Local_Search_in_iOS_8_and_Swift
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation)
         -> MKAnnotationView? {
-        
-        let identifier = "marker"
-        var view: MKMarkerAnnotationView
-        
-//        if let dequeuedView = mapView.dequeueReusableAnnotationView(
-//                                 withIdentifier: identifier)
-//                                     as? MKMarkerAnnotationView {
-//            dequeuedView.annotation = annotation
-//            view = dequeuedView
-//        } else {
+            
+            let identifier = "marker"
+            var view: MKMarkerAnnotationView
+            
+            //        if let dequeuedView = mapView.dequeueReusableAnnotationView(
+            //                                 withIdentifier: identifier)
+            //                                     as? MKMarkerAnnotationView {
+            //            dequeuedView.annotation = annotation
+            //            view = dequeuedView
+            //        } else {
             view =
                 MKMarkerAnnotationView(annotation: annotation,
-            reuseIdentifier: identifier)
-          //  view.markerTintColor = UIColor.blue
-         //   view.glyphText = "Here"
-
+                                       reuseIdentifier: identifier)
+            //  view.markerTintColor = UIColor.blue
+            //   view.glyphText = "Here"
+            
             view.canShowCallout = true
             view.calloutOffset = CGPoint(x: -5, y: 5)
             view.rightCalloutAccessoryView = UIButton(type: .close)
-      //  }
-        return view
+            //  }
+            return view
     }
     
+    // MARK: Marker delete
     // Action added to marker
     func mapView(_: MKMapView, annotationView:
-         MKAnnotationView, calloutAccessoryControlTapped: UIControl) {
+        MKAnnotationView, calloutAccessoryControlTapped: UIControl) {
         //id = calloutAccessoryControlTapped.
+        mapView.removeOverlay(polyline)
         let annotation = annotationView.annotation
         let id :String = (annotation?.title)!!
         let index :Int = Int(id)!
         track.remove(at: index)
+        visitedPoints.remove(at: index)
+       
+        self.mapView.removeAnnotations(self.mapView.annotations)
+  //      self.mapView.removeAnnotation(annotationView)
         plotPoints()
+        plotCurrentTrack()
+        mapView.addAnnotations(visitedPoints)
+        print("Plotted")
     }
     
-      
+    
     // Centre map on start of track
     func centreMap(location: CLLocation){
         let region_radius = 1000
         let region = MKCoordinateRegion(center: location.coordinate,latitudinalMeters: CLLocationDistance(region_radius), longitudinalMeters: CLLocationDistance(region_radius))
         mapView.setRegion(region, animated: true)
-          
+        
     }
     
     // Render track on map
@@ -121,7 +150,7 @@ class TrackDetailViewController: UIViewController, MKMapViewDelegate, CLLocation
         let renderer = MKPolylineRenderer(overlay: overlay)
         renderer.strokeColor = UIColor.blue
         renderer.lineWidth = 5
-       // renderer.lineDashPattern = .some([4, 16, 16])
+        // renderer.lineDashPattern = .some([4, 16, 16])
         return renderer
     }
     
@@ -133,9 +162,9 @@ class TrackDetailViewController: UIViewController, MKMapViewDelegate, CLLocation
             let hacc = point.horizontalAccuracy
             let vacc = point.horizontalAccuracy
             let elev = point.altitude
-             let timestamp = point.timestamp
-             print("\(lat) : \(long) : \(hacc) : \(vacc) : \(elev) : \(timestamp)")
-         }
+            let timestamp = point.timestamp
+            print("\(lat) : \(long) : \(hacc) : \(vacc) : \(elev) : \(timestamp)")
+        }
     }
     func  convertToCLLocation(fileData :[String]) -> [CLLocation] {
         var theLocations: [CLLocation] = []
@@ -160,7 +189,7 @@ class TrackDetailViewController: UIViewController, MKMapViewDelegate, CLLocation
             vacc = Double(values[3])
             elevation = Double(values[4])
             timestampS = values[5]
-
+            
             let date = formatter.date(from: timestampS)
             coordinate = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
             theLocation = CLLocation(coordinate: coordinate, altitude: elevation, horizontalAccuracy: hacc, verticalAccuracy: vacc, timestamp: date ?? Date())
@@ -186,17 +215,6 @@ class TrackDetailViewController: UIViewController, MKMapViewDelegate, CLLocation
     }
     
     /*
-     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-     let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
-     
-     // Configure the cell...
-     
-     return cell
-     }
-     */
-    
-    
-    /*
      // MARK: - Navigation
      
      // In a storyboard-based application, you will often want to do a little preparation before navigation
@@ -206,4 +224,18 @@ class TrackDetailViewController: UIViewController, MKMapViewDelegate, CLLocation
      }
      */
     
+    /*
+    func traitCollectionDidChange(previousTraitCollection :UITraitCollection ) {
+        super.traitCollectionDidChange(previousTraitCollection: self)
+        if @available(iOS 13.0, *) {
+            if ([self.traitCollection hasDifferentColorAppearanceComparedToTraitCollection:previousTraitCollection]) {
+                for (id<MKAnnotation> annotation in self.mapView.annotations) {
+                    [self.mapView removeAnnotation:annotation];
+                    [self.mapView addAnnotation:annotation];
+                    [self mapView:self.mapView viewForAnnotation:annotation];
+                }
+            }
+        }
+    }
+    */
 }
