@@ -28,7 +28,8 @@ class TracksTableViewController: UITableViewController {
         let docDir = try! FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: true)
         let skipsHiddenFiles: Bool = true
         let URLs = try! FileManager.default.contentsOfDirectory(at: docDir, includingPropertiesForKeys: nil, options: skipsHiddenFiles ? .skipsHiddenFiles : [] )
-        let csvURLs = URLs.filter{ $0.pathExtension == "csv" }
+        var csvURLs = URLs.filter{ $0.pathExtension == "csv" }
+        csvURLs.sort(by: { $0.lastPathComponent.lowercased() < $1.lastPathComponent.lowercased() } )
               
      //   let URLs = try! FileManager.default.contentsOfDirectory(at: docDir, includingPropertiesForKeys: nil)
         for file in csvURLs {

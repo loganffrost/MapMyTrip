@@ -113,11 +113,11 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
             }
             
             // Display for status bar
-            let altitude = currentLocation.altitude
-            let lat = currentLocation.coordinate.latitude
-            let long = currentLocation.coordinate.longitude
-            let hacc = currentLocation.horizontalAccuracy
-            let speed = currentLocation.speed
+            let lat = String(format:"%.6f", currentLocation.coordinate.latitude)
+            let long = String(format:"%.6f", currentLocation.coordinate.longitude)
+            let hacc = String(format:"%.0f", currentLocation.horizontalAccuracy)
+            let altitude = String(format:"%.0f", currentLocation.altitude)
+            let speed = String(format:"%.2f", currentLocation.speed)
             
             
             let status : String = "Recording: \nLat: \(lat) \nLong: \(long) \nAltitude: \(altitude) \nAccuracy: \(hacc) \nSpeed: \(speed)"
@@ -162,13 +162,14 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
     }
     
     // MARK: Functions
-    
+    // MARK: File Handling
     func getDocumentsDirectory() -> URL {
         let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
         // let public = FileManager
         return paths[0]
     }
     
+    // MARK: CSV
     // Prepare visitedLocations for saving as CSV
     func prepareCSVString() -> String{
         // Intiialise data string
@@ -217,6 +218,7 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
         return dataString
     }
     
+    // MARK: KML
     // Prepare visitedLocations for saving as KML
     func prepareKMLString() -> String{
         // Intiialise data string
@@ -267,7 +269,8 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
         return dataString
     }
     
-    // Prepare visitedLocations for saving as KML
+    // MARK: GPX
+    // Prepare visitedLocations for saving as GPX
     func prepareGPXString() -> String{
         // Intiialise data string
         var outputData: [String] = []
@@ -304,8 +307,7 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
     
     // Make GPX String from a place
     func makeGPXString(place :CLLocation) -> String{
-        // Sart with an empty string
-        // and a CLocation
+        // Sart with a CLocation
         let latitude = place.coordinate.latitude
         let longitude = place.coordinate.longitude
         let elevation = place.altitude
@@ -504,12 +506,15 @@ let dataString = "<trkpt lat=\"\(latitude)\" lon=\"\(longitude)\">\n\t<ele>\(ele
     func saveTrackData() {
         fileFormat = defaults.integer(forKey: "fileFormat")
         var dataString: String!
+        
+        // Always write CSV data
+        dataString  = prepareCSVString()
+        fileExtension = ".csv"
+        writeOutputString(dataString: dataString)
+        
         // Get data - depending on file format
         switch fileFormat {
-        case 0:
-            // CSV
-            dataString  = prepareCSVString()
-            fileExtension = ".csv"
+
         case 1:
             // KML
             dataString = prepareKMLString()
@@ -518,27 +523,12 @@ let dataString = "<trkpt lat=\"\(latitude)\" lon=\"\(longitude)\">\n\t<ele>\(ele
             dataString  = prepareGPXString()
             fileExtension  = ".gpx"
         default:
-            dataString  = ""
+            dataString  = "default"
             fileExtension  = ".txt"
         }
         
-        
-        let timestamp = Date()
-        let formatter = DateFormatter()
-        formatter.dateFormat = "_dd_MM_yy_HH_mm"
-        print (fileName!)
-        fileName += formatter.string(from: timestamp)
-        fileName += fileExtension
-        
-        let url = self.getDocumentsDirectory().appendingPathComponent(fileName)
-        
-        do {
-            try dataString.write(to: url, atomically: true, encoding: .utf8)
-            let input = try String(contentsOf: url)
-            print(input)
-        } catch {
-            print(error.localizedDescription)
-        }
+        writeOutputString(dataString: dataString)
+
         let destroy = defaults.bool(forKey: "destroyOnSave")
         if destroy {
             // New stuff starts here
@@ -560,6 +550,25 @@ let dataString = "<trkpt lat=\"\(latitude)\" lon=\"\(longitude)\">\n\t<ele>\(ele
         }
         plotCurrentTrack()
         // ends here
+    }
+    
+    func writeOutputString (dataString: String) {
+        let timestamp = Date()
+        let formatter = DateFormatter()
+        formatter.dateFormat = "_dd_MM_yy_HH_mm"
+        print (fileName!)
+        fileName += formatter.string(from: timestamp)
+        fileName += fileExtension
+        
+        let url = self.getDocumentsDirectory().appendingPathComponent(fileName)
+        
+        do {
+            try dataString.write(to: url, atomically: true, encoding: .utf8)
+            let input = try String(contentsOf: url)
+            print(input)
+        } catch {
+            print(error.localizedDescription)
+        }
     }
     
     func read() {
