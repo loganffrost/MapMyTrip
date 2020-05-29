@@ -115,7 +115,7 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
             
             
             // Check for accuracy
-            if currentLocation.horizontalAccuracy > 50 {
+            if currentLocation.horizontalAccuracy > 100 {
                 return
             }
             
